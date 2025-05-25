@@ -1,0 +1,2078 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <!-- site/metas -->
+    <title>Kilbeg</title>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="public/images/favicon.png" />
+
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind:wght@300;400;500;600;700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- styles -->
+    <link rel="stylesheet" href="public/css/wrap/full/rmcc.min.css">
+    <link rel="stylesheet" href="public/css/kcg.css">
+
+    <!-- scripts -->
+    <script src="public/js/rmcc.min.js"></script>
+    <script src="public/js/rmcc-icons.min.js"></script>
+
+  </head>
+
+  <body class="rmcc-wrap">
+
+    <div id="Feeds" hidden>
+
+      <div class="rmcc-section-default rmcc-background-effect">
+        <div class="rmcc-container rmcc-section">
+          <h2 class="rmcc-text-center">Jobs</h2>
+          <div id="MyJobs" class="feeds">
+            <p>Loading...</p>
+          </div>
+        </div>
+      </div>
+
+      <script type="text/javascript" src="../jobboardfeed/public/js/api/feed.js"></script> 
+      <script>
+        // https://robertmccormack.com/wp-json/midlandjobs/v1/customFeed
+        (async function () {
+          var jobsData = await fetchJobsJson('https://midlandjobs.ie/feeds/standard.xml?limit=200', 'https://robertmccormack.com/wp-json/midlandjobs/v1/customFeed');
+          const MyJobs = new JobBoardFilteredFeed(42, jobsData, {
+  
+            counts: true,
+            search: true,
+  
+            pagination: {
+              visiblePages: 3, // set init visible pages within the pagination
+              initPerPage: 10, // set an initial per page count (in case where perPage below is false/not set)
+              perPage: {
+                values: [10, 12, 15, 18] // per page dropdown options
+              },
+            },
+  
+            filters: [
+              {
+                key: 'company',
+                singular: 'Company',
+                plural: 'Companies',
+                type: 'option',
+                setArray: false,
+                removeTerms: []
+              },
+              {
+                key: 'jobtype',
+                singular: 'Jobtype',
+                plural: 'Jobtypes',
+                type: 'option',
+                setArray: true,
+                removeTerms: []
+              },
+              {
+                key: 'city',
+                singular: 'Town/City',
+                plural: 'Cities',
+                type: 'option',
+                setArray: false,
+                removeTerms: []
+              },
+              {
+                key: 'remote',
+                singular: 'Remote',
+                plural: 'Remotes',
+                type: 'option',
+                setArray: false,
+                removeTerms: []
+              },
+              {
+                key: 'category',
+                singular: 'Category',
+                plural: 'Categories',
+                type: 'checkbox',
+                setArray: true,
+                removeTerms: []
+              }
+            ],
+  
+            counts: false,
+            search: false,
+            filters: false
+  
+          });
+          
+          var jobsQueryObj = JsonQuery(MyJobs.jobs); // do some querying & some sorting before rendering
+          var jobsQueryResults = jobsQueryObj.where({'company': 'Kilbeggan Community Group'}).exec();
+          var sortedQueriedJobs = MyJobs.sortTheJobs(jobsQueryResults, 'date');
+          MyJobs.jobs = sortedQueriedJobs; // reset the jobs property (optional; can also put the jobs into renderTheJobs 2nd param)
+          
+          // MyJobs.renderTheJobs('#MyJobs'); // now render the jobs AFTER querying & sorting
+        })();
+      </script>
+  
+      <script id="jobs-wrap-template" type="text/html">
+        <div class="jobswrap" rmcc-grid>
+          <div class="rmcc-width-3-4">
+            <div class="rmcc-notification static-notification rmcc-position-relative rmcc-margin-bottom">
+              <div class="rmcc-notification-message" role="alert"> 
+                <a href="" class="rmcc-notification-close rmcc-icon rmcc-close" data-rmcc-close="" role="button" aria-label="Close"></a> 
+                <div><span class="rmcc-text-bold rmcc-text-emphasis rmcc-text-uppercase">Notice:</span> <span class="slight-bold rmcc-text-italic">Community Employment</span> is an employment programme funded by the <span class="rmcc-text-bold text-underline">Department of Employment Affairs and Social Protection</span>, which helps long-term unemployed people to re-enter the active workforce by offering part-time and temporary placements within local voluntary communities and organisations.</div> 
+              </div>
+            </div>
+            <div>
+              <div class="jobs rmcc-grid-small rmcc-child-width-1-1" id="jobs_<%= id %>" rmcc-grid></div>
+            </div>
+          </div>
+          <div class="sidebar rmcc-width-1-4">
+            <div class="widget">
+              <h4 class="rmcc-margin-remove-bottom">About the Schemes</h4>
+              <span class="rmcc-icon" style="color: #1d7fa9;">
+                <svg width="40" height="40" viewBox="0 0 20 20">
+                  <circle cx="3" cy="10" r="2" style="color: #93bdcf;"></circle>
+                  <circle cx="10" cy="10" r="2" style="color: #1c7fab;"></circle>
+                  <circle cx="17" cy="10" r="2" style="color: #a1cc3a;"></circle>
+                </svg>
+              </span>
+              <p class="rmcc-margin-remove-top">Training is an integral part of Community Employment. Each learner on CE designs an Individual Training Plan (ILP) which outlines work experience and both job specific and progression training.</p>
+            </div>
+            <div class="widget rmcc-margin-medium-top">
+              <h4 class="rmcc-margin-remove-bottom">CE Training</h4>
+              <span class="rmcc-icon" style="color: #1d7fa9;">
+                <svg width="40" height="40" viewBox="0 0 20 20">
+                  <circle cx="3" cy="10" r="2" style="color: #93bdcf;"></circle>
+                  <circle cx="10" cy="10" r="2" style="color: #1c7fab;"></circle>
+                  <circle cx="17" cy="10" r="2" style="color: #a1cc3a;"></circle>
+                </svg>
+              </span>
+              <p class="rmcc-margin-remove-top">Training is an integral part of Community Employment. Each learner on CE designs an Individual Training Plan (ILP) which outlines work experience and both job specific and progression training.</p>
+            </div>
+          </div>
+        </div>
+      </script>
+  
+      <script id="job-template" type="text/html">
+        <div class="job">
+          <div class="rmcc-card rmcc-card-default rmcc-card-hover rmcc-card-body rmcc-padding-small rmcc-border-rounded">
+            <div class="rmcc-grid-small rmcc-grid-match" rmcc-grid>
+  
+              <!-- job left (logo) -->
+              <% if(companylogo.length > 0) { %>
+              <div class="job-company-logo rmcc-width-small rmcc-first-column">
+                <img src="<%= companylogo %>" alt="" class="company-logo img-contain">
+              </div>
+              <% } %>
+    
+              <!-- job main (center) -->
+              <div class="job-details rmcc-width-expand rmcc-flex rmcc-flex-middle">
+                <div>
+    
+                  <div class="job-title">
+                    <h4 class="rmcc-margin-remove rmcc-text-bold rmcc-text-capitalize rmcc-inline">
+                      <a class="rmcc-link rmcc-link-heading" href="<%= url %>"><span hidden><%= _fid %>. </span><%= title.toLowerCase() %></a>
+                    </h4>
+                    <% if(typeof jobtypes !== 'undefined' && Array.isArray(jobtypes)) { %>
+                      <% if(jobtypes.length> 0) { %> 
+                        <span class="job-types">
+                          <% for (let type of jobtypes) { %>
+                            <% if(type !='Hybrid') { %>
+                              <span class="rmcc-badge"><%= type %></span>
+                            <% } else { %>
+                              <span class="rmcc-badge rmcc-label-success">Hybrid</span>
+                            <% } %>
+                          <% } %>
+                        </span>
+                      <% } %>
+                    <% } %>
+                  </div>
+    
+                  <div class="rmcc-grid-match rmcc-grid-small rmcc-grid-divider rmcc-flex rmcc-flex-middle rmcc-text-small rmcc-text-capitalize" rmcc-grid>
+                    <div class="job-company">
+                      <% if(companywebsite.length> 0) { %><a href="<%= companywebsite %>" target="_blank" class=""><% } %>
+                        <span class="company-text"><%= company.toLowerCase() %></span>
+                      <% if(companywebsite.length> 0) { %></a><% } %>
+                    </div>
+                    <div class="job-location">
+                      <span>
+                        <span rmcc-icon="icon:location;"></span>
+                        <% if(city.length > 0) { %>
+                          <%= city.toLowerCase() %><% if(state.length > 0 || country.length > 0) { %>, <% } %>
+                        <% } %>
+                        <% if(state.length > 0) { %>
+                          <%= state.toLowerCase() %><% if(country.length > 0) { %>, <% } %>
+                        <% } %>
+                        <% if(country.length > 0) { %>
+                          <%= country.toLowerCase() %>
+                        <% } %>
+                      </span>
+                    </div>
+                  </div>
+    
+                </div>
+              </div>
+    
+              <!-- job right -->
+              <div class="job-context rmcc-width-1-6">
+                <div class="rmcc-position-relative rmcc-inline">
+                  <div class="the-date rmcc-position-top rmcc-text-right rmcc-text-muted rmcc-text-small">
+                    <% var dt=new Date(date); %>
+                    <span><%= dt.toLocaleDateString('en-GB') %></span>
+                  </div>
+                  <div class="the-context-menu rmcc-position-bottom-right">
+                    <a href="#" class="rmcc-icon-button rmcc-icon" rmcc-icon="icon:more-vertical" role="button"></a>
+                    <div rmcc-dropdown="mode:click; pos: bottom-right; boundary:#author-wrap" class="rmcc-drop rmcc-dropdown">
+                      <ul class="rmcc-nav rmcc-dropdown-nav">
+                        <li class="rmcc-nav-header">Actions</li>
+                        <li><a href="#">Rate this author</a></li>
+                        <li><a href="#">Follow this author</a></li>
+                        <li><a href="#">Bookmark</a></li>
+                        <li><a href="#">View more articles</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+    
+            </div>
+            <div class="rmcc-card rmcc-card-default rmcc-card-hover rmcc-border-rounded rmcc-grid-collapse" rmcc-grid hidden>
+        
+              <!-- card right: details -->
+              <div class="rmcc-width-expand rmcc-flex rmcc-flex-middle">
+                <div class="rmcc-card-body rmcc-padding-remove">
+                  <div class="job-details">
+        
+                    <!-- job title -->
+                    <h5 class="rmcc-text-bold rmcc-h5 rmcc-margin-remove">
+                      <a class="rmcc-link rmcc-link-heading" href="<%= url %>"><span hidden><%= _fid %>. </span><%= title %></a>
+                    </h5>
+    
+                    <div class="rmcc-grid-match rmcc-grid-small rmcc-grid-divider" rmcc-grid>
+                      <div>
+                        <!-- company -->
+                        <span class="uurmcc-text-small">
+                          <span rmcc-icon="icon:home;ratio:0.8"></span> <%= company %>
+                        </span>
+                      </div>
+                      <div>
+                        <!-- location -->
+                        <span class="uurmcc-text-small rmcc-text-capitalize">
+                          <span rmcc-icon="icon:location;ratio:0.8"></span>
+                          <% if(city.length > 0) { %>
+                            <%= city %><% if(state.length > 0 || country.length > 0) { %>, <% } %>
+                          <% } %>
+                          <% if(state.length > 0) { %>
+                            <%= state %><% if(country.length > 0) { %>, <% } %>
+                          <% } %>
+                          <% if(country.length > 0) { %>
+                            <%= country %>
+                          <% } %>
+                        </span>
+                      </div>
+                    </div>
+    
+                  </div>
+                </div>
+              </div>
+    
+              <!-- details: right -->
+              <div class="rmcc-width-1-6 rmcc-inline">
+    
+                <!-- details right: top -->
+                <div class="rmcc-position-top rmcc-text-right" hidden>
+                  <!-- job posted date -->
+                  <div class="the-date">
+                    <% var dt=new Date(date); %>
+                    <span class="rmcc-text-muted rmcc-text-small">
+                      <%= dt.toLocaleDateString('en-GB') %>
+                    </span>
+                  </div>
+                  <% if(typeof jobtypes !== 'undefined' && Array.isArray(jobtypes)) { %>
+                    <!-- jobtype badges -->
+                    <% if(jobtypes.length> 0) { %> <div class="the-jobtypes">
+                        <% for (let type of jobtypes) { %>
+                          <% if(type !='Hybrid' ) { %>
+                            <span class="rmcc-badge">
+                              <%= type %>
+                            </span>
+                          <% } else { %>
+                            <span class="rmcc-badge rmcc-label-success">Hybrid</span>
+                          <% } %>
+                        <% } %>
+                      </div>
+                    <% } %>
+                  <% } %>
+                </div>
+    
+                <!-- details right: bottom. modal trigger & modal -->
+                <div class="rmcc-position-top-right rmcc-position-small rmcc-text-right">
+                  <a href="#modal-overflow-<%= referencenumber %>" class="rmcc-text-muted" rmcc-icon="icon: expand; ratio: 1.3" rmcc-toggle></a>
+                  <!-- the actual modal -->
+                  <div id="modal-overflow-<%= referencenumber %>" rmcc-modal>
+                    <div class="rmcc-modal-dialog">
+                      <!-- modal close -->
+                      <button class="rmcc-modal-close-default rmcc-light" type="button" rmcc-close></button>
+                      <!-- modal header with title -->
+                      <div class="rmcc-modal-header rmcc-background-primary rmcc-light">
+                        <h4 class="rmcc-text-bold rmcc-h4">
+                          <%= title %>
+                        </h4>
+                      </div>
+                      <!-- modal body -->
+                      <div class="rmcc-modal-body" rmcc-overflow-auto>
+                        <!-- modal body header -->
+                        <div class="rmcc-margin-bottom">
+                          <!-- modal body header: first. logo & details -->
+                          <div class="rmcc-grid-collapse rmcc-flex rmcc-flex-middle" rmcc-grid>
+                            <!-- left: companylogo -->
+                            <% if(companylogo.length> 0) { %> <div class="rmcc-width-small rmcc-card-media-left rmcc-cover-container rmcc-flex rmcc-flex-middle rmcc-flex-center">
+                                <img class="company-logo" src="<%= companylogo %>" alt="">
+                              </div>
+                              <% } %>
+                                <!-- right: details. title, company & location -->
+                                <div class="rmcc-width-expand">
+                                  <div class="rmcc-card-body rmcc-padding-small">
+                                    <div class="rmcc-grid-collapse" rmcc-grid>
+                                      <!-- details: left -->
+                                      <div class="rmcc-width-expand rmcc-flex rmcc-flex-middle">
+                                        <div class="job-details">
+                                          <!-- job title -->
+                                          <h5 class="rmcc-text-bold rmcc-h5">
+                                            <a class="rmcc-link rmcc-link-heading" href="<%= url %>">
+                                              <%= _fid %>. <%= title %>
+                                            </a>
+                                          </h5>
+                                          <!-- company -->
+                                          <span class="rmcc-text-small">
+                                            <span rmcc-icon="home" class="rmcc-margin-small-right"></span>
+                                            <%= company %>
+                                          </span>
+                                          <br>
+                                          <!-- location -->
+                                          <span class="rmcc-text-small rmcc-text-capitalize">
+                                            <span rmcc-icon="location" class="rmcc-margin-small-right"></span>
+                                            <% if(city.length > 0) { %>
+                                              <%= city %><% if(state.length > 0 || country.length > 0) { %>, <% } %>
+                                            <% } %>
+                                            <% if(state.length > 0) { %>
+                                              <%= state %><% if(country.length > 0) { %>, <% } %>
+                                            <% } %>
+                                            <% if(country.length > 0) { %>
+                                              <%= country %>
+                                            <% } %>
+                                          </span>
+                                          <br>
+                                          <!-- company website -->
+                                          <% if(companywebsite.length> 0) { %> 
+                                            <span class="rmcc-text-small">
+                                              <span rmcc-icon="link" class="rmcc-margin-small-right"></span> <a href="<%= companywebsite %>" target="_blank" class=""><%= companywebsite %></a>
+                                            </span>
+                                          <% } %>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                          </div>
+                          <hr class="rmcc-hr rmcc-margin-small-top rmcc-margin-small-bottom">
+                          <!-- modal body header: second. jobtype & date -->
+                          <div>
+                            <!-- jobtype badges -->
+                            <% if(typeof jobtypes !== 'undefined' && Array.isArray(jobtypes)) { %>
+                              <% if(jobtypes.length> 0) { %> <span class="the-jobtypes">
+                                  <% for (let type of jobtypes) { %>
+                                    <% if(type !='Hybrid' ) { %>
+                                      <span class="rmcc-badge">
+                                        <%= type %>
+                                      </span>
+                                    <% } else { %>
+                                      <span class="rmcc-badge rmcc-label-success">Hybrid</span>
+                                    <% } %>
+                                  <% } %>
+                                </span>
+                              <% } %>
+                            <% } %>
+                            <!-- date -->
+                            <span class="the-date">
+                              <% var dt=new Date(date); %>
+                              <span class="rmcc-text-muted rmcc-text-small" style="float:right">
+                                <%= dt.toLocaleDateString('en-GB') %>
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                        <!-- modal body. job description -->
+                        <div>
+                          <%= description %>
+                        </div>
+                      </div>
+                      <!-- modal footer. buttons -->
+                      <div class="rmcc-modal-footer rmcc-text-right"> 
+                        {# <% if(companywebsite.length> 0) { %> 
+                          <a href="<%= companywebsite %>" target="_blank" class="rmcc-button rmcc-button-default rmcc-button-small rmcc-text-capitalize rmcc-border-rounded">
+                            Visit Company Website <span rmcc-icon="icon: chevron-right; ratio: .7" class="rmcc-icon"></span>
+                          </a>
+                        <% } %> #} 
+                        <a href="<%= url %>" target="_blank" class="rmcc-button rmcc-button-primary rmcc-button-small rmcc-text-capitalize rmcc-border-rounded">
+                          Apply Now <span rmcc-icon="icon: chevron-right; ratio: .7" class="rmcc-icon"></span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    
+              </div>
+        
+            </div>
+          </div>
+        </div>
+      </script>
+
+    </div>
+
+    <div id="Headers" hidden>
+
+      <header class="site-header" hidden>
+        <div class="rmcc-position-relative rmcc-position-z-index rmcc-light">
+          <div class="rmcc-position-top rmcc-margin-top">
+            <nav class="rmcc-navbar-container rmcc-navbar-transparent">
+              <div class="rmcc-container rmcc-container-expand">
+                <div rmcc-navbar="" class="rmcc-navbar">
+                  <div class="rmcc-navbar-left">
+                    <a class="rmcc-navbar-item rmcc-logo" href="#">
+                      <div class="rmcc-grid-small rmcc-grid-match rmcc-flex rmcc-flex-middle rmcc-grid" rmcc-grid="">
+                        <div class="logo-img rmcc-width-auto rmcc-first-column">
+                          <img class="logo" src="public/images/logo/logo.png">
+                        </div>
+                        <div class="logo-text rmcc-width-expand">
+                          <h3>Kilbeggan Community Group</h3>
+                          <span>Succeding <span>Together</span></span>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="rmcc-navbar-center">
+                    <ul class="rmcc-navbar-nav rmcc-navbar-nav-primary">
+                      <li><a href="#">Employment</a></li>
+                      <li class="rmcc-active">
+                        <a href="#" role="button" aria-haspopup="true">Training</a>
+                        <div class="rmcc-navbar-dropdown rmcc-drop">
+                          <ul class="rmcc-nav rmcc-navbar-dropdown-nav">
+                            <li class="rmcc-active"><a href="#">Active</a></li>
+                            <li class="rmcc-parent">
+                              <a href="#">Parent</a>
+                              <ul class="rmcc-nav-sub">
+                                <li><a href="#">Sub item</a></li>
+                                <li><a href="#">Sub item</a></li>
+                              </ul>
+                            </li>
+                            <li class="rmcc-nav-header">Header</li>
+                            <li><a href="#"><span class="rmcc-margin-small-right rmcc-icon" rmcc-icon="icon: table"></span> Item</a></li>
+                            <li><a href="#"><span class="rmcc-margin-small-right rmcc-icon" rmcc-icon="icon: thumbnails"></span> Item</a></li>
+                            <li class="rmcc-nav-divider"></li>
+                            <li><a href="#"><span class="rmcc-margin-small-right rmcc-icon" rmcc-icon="icon: trash"></span> Item</a></li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <a href="#" role="button" aria-haspopup="true">Community</a>
+                        <div class="rmcc-navbar-dropdown rmcc-drop">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+                      </li>
+                      <li><a href="#">Contact Us</a></li>
+                    </ul>
+                  </div>
+                  <div class="rmcc-navbar-right">
+                    <a class="rmcc-navbar-toggle rmcc-navbar-toggle-animate rmcc-icon rmcc-navbar-toggle-icon" href="" rmcc-navbar-toggle-icon="" role="button" aria-haspopup="true" aria-label="Open menu"></a>
+                    <div class="rmcc-navbar-dropdown rmcc-drop" rmcc-drop="mode: click; cls-drop: rmcc-navbar-dropdown; boundary: !.rmcc-navbar; flip: false">Dropdown</div>
+                  </div>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </header>
+  
+      <header class="page-header">
+        <div class="rmcc-position-relative rmcc-position-z-index rmcc-light">
+          <div class="rmcc-position-top rmcc-margin-top">
+            <nav class="rmcc-navbar-container rmcc-navbar-transparent">
+              <div class="rmcc-container rmcc-container-medium-large">
+                <div rmcc-grid>
+                  <div class="rmcc-width-expand"></div>
+                  <div class="rmcc-width-auto">
+                    <div>
+                      <ul class="rmcc-subnav rmcc-margin-remove">
+                        <li><a href="#">Knowledge Base</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Login</a></li>
+                        <li><a href="#" rmcc-icon="icon: search"></a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div rmcc-navbar="" class="rmcc-navbar">
+                  <div class="rmcc-navbar-left">
+                    <a class="rmcc-navbar-item rmcc-logo" href="#">
+                      <div class="rmcc-grid-collapse rmcc-grid-match rmcc-flex rmcc-flex-middle rmcc-grid" rmcc-grid="">
+                        <div class="logo-img rmcc-width-auto rmcc-first-column">
+                          <!-- <?xml version="1.0" encoding="utf-8"?> -->
+                          <svg version="1.2" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                             x="0px" y="0px" width="80px" height="80px" viewBox="0 0 20 20" xml:space="preserve">
+                            <path fill="#1C7FAB" d="M7.624,19.809c0.057-2.305,0.681-4.582,0.173-6.916c-0.132,0.064-0.16,0.18-0.212,0.268
+                              C6.802,14.48,6.039,15.814,5.05,17c-0.291,0.348-0.646,0.641-0.901,1.02c-0.058,0.086-0.157,0.168-0.253,0.094
+                              c-0.095-0.07,0.011-0.162,0.047-0.234c0.705-1.443,1.376-2.898,1.787-4.461c0.41-1.561,0.542-3.137,0.297-4.74
+                              C5.99,8.443,5.914,8.456,5.738,8.519c-1.152,0.409-2.241,0.97-3.372,1.428C2.261,9.988,2.159,10.079,2,10.013
+                              c3.54-2.415,5.922-5.631,6.929-9.821c0.244,0.993,0.15,1.963-0.094,2.925c-0.169,0.667-0.407,1.31-0.668,1.944
+                              C8.114,5.188,8.094,5.3,8.154,5.434c0.635,1.429,0.921,2.943,1.051,4.487c0.2,2.362,0.03,4.702-0.53,7.009
+                              c-0.224,0.924-0.525,1.822-0.946,2.676C7.696,19.674,7.659,19.74,7.624,19.809z"/>
+                            <path fill="#1C7FAB" d="M5.645,5.558c-0.614-0.012-1.427-0.651-1.579-1.24C3.979,3.977,4.064,3.734,4.335,3.55
+                              c0.417-0.284,1.019-0.238,1.502,0.116c0.461,0.337,0.672,0.866,0.536,1.346C6.266,5.39,6.032,5.565,5.645,5.558z"/>
+                            <path fill="#A1CC3A" d="M16.254,18.102c-0.312,0.037-0.429-0.18-0.572-0.332c-1.067-1.131-1.906-2.426-2.66-3.779
+                              c-0.212-0.383-0.414-0.773-0.657-1.23c-0.608,2.385-0.063,4.656,0.181,6.941c-0.35-0.498-0.574-1.053-0.773-1.617
+                              c-0.549-1.572-0.816-3.199-0.924-4.857c-0.127-1.938-0.016-3.854,0.434-5.745c0.153-0.639,0.349-1.264,0.629-1.858
+                              c0.076-0.162,0.07-0.298,0.014-0.458c-0.346-0.99-0.708-1.976-0.849-3.022c-0.083-0.609-0.124-1.221-0.016-1.839
+                              c0.147,0.053,0.136,0.189,0.169,0.298c0.824,2.739,2.129,5.203,4.176,7.237c0.719,0.715,1.502,1.349,2.348,1.907
+                              C17.84,9.804,17.959,9.832,18,9.965c-0.198,0.027-0.361-0.065-0.521-0.134C16.533,9.428,15.599,9,14.646,8.613
+                              c-0.562-0.228-0.466-0.283-0.571,0.318c-0.381,2.136,0.048,4.172,0.811,6.16C15.273,16.109,15.75,17.09,16.254,18.102z"/>
+                            <path fill="#A1CC3A" d="M15.953,4.147c-0.003,0.842-0.875,1.546-1.676,1.352c-0.395-0.096-0.596-0.375-0.557-0.776
+                              c0.059-0.632,0.607-1.271,1.229-1.382C15.469,3.248,16.002,3.423,15.953,4.147z"/>
+                          </svg>
+                        </div>
+                        <div class="logo-text rmcc-width-expand">
+                          <h3>Kilbeggan Community Group</h3>
+                          <span>Succeding <span>Together</span></span>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="rmcc-navbar-right">
+                    <ul class="rmcc-navbar-nav rmcc-navbar-nav-primary">
+                      <li><a href="#">Employment</a></li>
+                      <li class="rmcc-active">
+                        <a href="#" role="button" aria-haspopup="true">Training</a>
+                        <div class="rmcc-navbar-dropdown rmcc-drop">
+                          <ul class="rmcc-nav rmcc-navbar-dropdown-nav">
+                            <li class="rmcc-active"><a href="#">Active</a></li>
+                            <li class="rmcc-parent">
+                              <a href="#">Parent</a>
+                              <ul class="rmcc-nav-sub">
+                                <li><a href="#">Sub item</a></li>
+                                <li><a href="#">Sub item</a></li>
+                              </ul>
+                            </li>
+                            <li class="rmcc-nav-header">Header</li>
+                            <li><a href="#"><span class="rmcc-margin-small-right rmcc-icon" rmcc-icon="icon: table"></span> Item</a></li>
+                            <li><a href="#"><span class="rmcc-margin-small-right rmcc-icon" rmcc-icon="icon: thumbnails"></span> Item</a></li>
+                            <li class="rmcc-nav-divider"></li>
+                            <li><a href="#"><span class="rmcc-margin-small-right rmcc-icon" rmcc-icon="icon: trash"></span> Item</a></li>
+                          </ul>
+                        </div>
+                      </li>
+                      <li>
+                        <a href="#" role="button" aria-haspopup="true">Community</a>
+                        <div class="rmcc-navbar-dropdown rmcc-drop">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+                      </li>
+                      <li><a href="#">Contact</a></li>
+                    </ul>
+                    <div class="rmcc-navbar-item">
+                      <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-button-small rmcc-border-rounded" href="#">Download</a>
+                    </div>
+                  </div>
+                  <div class="rmcc-navbar-right" hidden>
+                    <a class="rmcc-navbar-toggle rmcc-navbar-toggle-animate rmcc-icon rmcc-navbar-toggle-icon" href="" rmcc-navbar-toggle-icon="" role="button" aria-haspopup="true" aria-label="Open menu"></a>
+                    <div class="rmcc-navbar-dropdown rmcc-drop" rmcc-drop="mode: click; cls-drop: rmcc-navbar-dropdown; boundary: !.rmcc-navbar; flip: false">Dropdown</div>
+                  </div>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+    </div>
+
+    <main>
+
+      <div id="ColourBars" hidden>
+        <div class="gradient-bar"></div>
+        <div class="rainbow-bar">
+          <span class="red"></span>
+          <span class="orange"></span>
+          <span class="yellow"></span>
+          <span class="green"></span>
+          <span class="blue"></span>
+          <span class="indigo"></span>
+          <span class="violet"></span>
+        </div>
+      </div>
+  
+      <div id="Covers" hidden>
+
+        <div id="HeroWithSlider" class="hero-bg" hidden>
+          <div class="hero-bg-effect">
+  
+            <!-- header top -->
+            <div class="rmcc-cover-container rmcc-position-relative rmcc-visible-toggle">
+  
+              <!-- bg slider -->
+              <!-- <img src="public/images/harbour.jpg" alt="" rmcc-cover> -->
+              <div class="hero-slideshow rmcc-position-relative rmcc-light" tabindex="0" rmcc-slideshow="finite: true; autoplay: false; autoplay-interval: 3000; animation: slide">
+                <div class="rmcc-slideshow-items rmcc-height-large">
+                  <img src="public/images/harbour.jpg" class="rmcc-height-large" alt="" loading="lazy" rmcc-cover>
+                  <img src="public/images/pitch.jpg" class="rmcc-height-large" alt="" loading="lazy" rmcc-cover>
+                  <img src="public/images/ballymore.jpg" class="rmcc-height-large" alt="" loading="lazy" rmcc-cover>
+                </div>
+                <a class="rmcc-position-center-left rmcc-position-center-left-out rmcc-position-small rmcc-hidden-hover rmcc-position-z-index" href rmcc-slidenav-previous rmcc-slideshow-item="previous"></a>
+                <a class="rmcc-position-center-right rmcc-position-center-right-out rmcc-position-small rmcc-hidden-hover rmcc-position-z-index" href rmcc-slidenav-next rmcc-slideshow-item="next"></a>
+              </div>
+  
+              <!-- overlay -->
+              <div class="rmcc-overlay-primary rmcc-position-cover"></div>
+
+              <!-- header content -->
+              <div class="rmcc-light rmcc-position-absolute rmcc-position-bottom rmcc-height-1-1 rmcc-width-1-1 rmcc-flex rmcc-flex-center rmcc-flex-bottom rmcc-padding-large">
+                <div class="rmcc-container rmcc-text-center rmcc-light">
+                  <h5 class="rmcc-text-uppercase rmcc-heading-large">Lorem ipsum dolor amet</h5>
+                  <h1 class="rmcc-heading-large rmcc-text-uppercase rmcc-margin-remove-top">Consectetur Adipiscing Elit</h1>
+                  <p class="rmcc-text-large">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                  <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-text-emphasis rmcc-button-large rmcc-border-rounded rmcc-text-capitalize slight-bold rmcc-margin-top">
+                    <span class="uuurmcc-position-relative">View our Latest Jobs</span> <span rmcc-icon="icon: forward; ratio: 1.6"></span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+  
+            <!-- header bottom -->
+            <div class="rmcc-position-relative rmcc-visible-toggle rmcc-light" tabindex="0" rmcc-slider>
+              <div class="rmcc-slider-items rmcc-child-width-1-2@m rmcc-grid-collapse rmcc-grid-divider rmcc-light rmcc-height-1-1 rmcc-margin-remove" rmcc-grid rmcc-height-viewport="offset-bottom: 74">
+                <div class="rmcc-padding-remove-horizontal">
+                  <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-padding">
+                    <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-inline">
+                      <div class="rmcc-position-top-left">
+                        <div class="rmcc-width-3-4">
+                          <span class="rmcc-text-bold rmcc-text-emphasis">About Us</span>
+                          <h2 class="rmcc-text-normal rmcc-margin-remove-top">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do.</h2>
+                        </div>
+                      </div>
+                      <div class="rmcc-position-bottom-right">
+                        <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-border-rounded" href="#">Learn more</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="rmcc-padding-remove-horizontal">
+                  <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-padding">
+                    <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-inline">
+                      <div class="rmcc-position-top-left">
+                        <div class="rmcc-width-3-4">
+                          <span class="rmcc-text-bold rmcc-text-emphasis">Our Sponsors</span>
+                          <h2 class="rmcc-text-normal rmcc-margin-remove-top">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium.</h2>
+                        </div>
+                      </div>
+                      <div class="rmcc-position-bottom-right">
+                        <a class="rmcc-button rmcc-button-secondary rmcc-border-rounded" href="#">Learn more</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+
+        <div id="HeroWithImage" class="hero-bg" hidden>
+          <div class="hero-bg-effect">
+  
+            <!-- header top -->
+            <div class="rmcc-cover-container rmcc-position-relative rmcc-visible-toggle rmcc-height-large">
+  
+              <!-- bg image -->
+              <img class="gray" src="public/images/harbour.jpg" alt="" rmcc-cover>
+  
+              <!-- overlay -->
+              <div class="rmcc-overlay-primary rmcc-position-cover"></div>
+
+              <!-- header content -->
+              <div class="rmcc-light rmcc-position-absolute rmcc-position-bottom rmcc-height-1-1 rmcc-width-1-1 rmcc-flex rmcc-flex-center rmcc-flex-bottom rmcc-padding-large">
+                <div class="rmcc-container rmcc-text-center rmcc-light">
+                  <h5 class="rmcc-text-uppercase rmcc-heading-large">Lorem ipsum dolor amet</h5>
+                  <h1 class="rmcc-heading-large rmcc-text-uppercase rmcc-margin-remove-top">Consectetur Adipiscing Elit</h1>
+                  <p class="rmcc-text-large">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                  <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-text-emphasis rmcc-button-large rmcc-border-rounded rmcc-text-capitalize slight-bold rmcc-margin-top">
+                    <span class="uuurmcc-position-relative">View our Latest Jobs</span> <span rmcc-icon="icon: forward; ratio: 1.6"></span>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+  
+            <!-- header bottom -->
+            <div class="rmcc-position-relative rmcc-visible-toggle rmcc-light" tabindex="0" rmcc-slider>
+              <div class="rmcc-slider-items rmcc-child-width-1-2@m rmcc-grid-collapse rmcc-grid-divider rmcc-light rmcc-height-1-1 rmcc-margin-remove" rmcc-grid rmcc-height-viewport="offset-bottom: 74">
+                <div class="rmcc-padding-remove-horizontal">
+                  <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-padding">
+                    <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-inline">
+                      <div class="rmcc-position-top-left">
+                        <div class="rmcc-width-3-4">
+                          <span class="rmcc-text-bold rmcc-text-emphasis">About Us</span>
+                          <h2 class="rmcc-text-normal rmcc-margin-remove-top">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do.</h2>
+                        </div>
+                      </div>
+                      <div class="rmcc-position-bottom-right">
+                        <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-border-rounded" href="#">Learn more</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="rmcc-padding-remove-horizontal">
+                  <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-padding">
+                    <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-inline">
+                      <div class="rmcc-position-top-left">
+                        <div class="rmcc-width-3-4">
+                          <span class="rmcc-text-bold rmcc-text-emphasis">Our Sponsors</span>
+                          <h2 class="rmcc-text-normal rmcc-margin-remove-top">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium.</h2>
+                        </div>
+                      </div>
+                      <div class="rmcc-position-bottom-right">
+                        <a class="rmcc-button rmcc-button-secondary rmcc-border-rounded" href="#">Learn more</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+
+        <div id="PageHeroOne" class="hero-bg rmcc-background-default">
+          <div class="hhero-bg-effect">
+  
+            <!-- header top -->
+            <div class="rmcc-cover-container rmcc-position-relative rmcc-visible-toggle rmcc-height-large smaller">
+  
+              <!-- bg image -->
+              <img src="public/images/services-header-background.jpg" alt="" rmcc-cover>
+  
+              <!-- overlay -->
+              <!-- <div class="rmcc-overlay-primary rmcc-position-cover"></div> -->
+
+              <!-- header content -->
+              <div class="rmcc-light rmcc-position-absolute rmcc-position-bottom rmcc-height-1-1 rmcc-width-1-1 rmcc-flex rmcc-flex-center rmcc-flex-bottom rmcc-padding-large">
+                <div class="rmcc-container rmcc-text-center rmcc-light">
+                  <!-- <h5 class="rmcc-text-uppercase rmcc-heading-large">Lorem ipsum dolor amet</h5> -->
+                  <h1 class="rmcc-heading-large uurmcc-text-uppercase rmcc-margin-remove-top rmcc-margin-medium-bottom text-normal">Enterprise Database Technical Support Services</h1>
+                  <!-- <p class="rmcc-text-large">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                  <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-text-emphasis rmcc-button-large rmcc-border-rounded rmcc-text-capitalize slight-bold rmcc-margin-top">
+                    <span class="uuurmcc-position-relative">View our Latest Jobs</span> <span rmcc-icon="icon: forward; ratio: 1.6"></span>
+                  </button> -->
+                </div>
+              </div>
+
+            </div>
+  
+            <!-- header bottom -->
+            <div class="rmcc-position-relative rmcc-visible-toggle rmcc-light" tabindex="0" rmcc-slider hidden>
+              <div class="rmcc-slider-items rmcc-child-width-1-2@m rmcc-grid-collapse rmcc-grid-divider rmcc-light rmcc-height-1-1 rmcc-margin-remove" rmcc-grid rmcc-height-viewport="offset-bottom: 74">
+                <div class="rmcc-padding-remove-horizontal">
+                  <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-padding">
+                    <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-inline">
+                      <div class="rmcc-position-top-left">
+                        <div class="rmcc-width-3-4">
+                          <span class="rmcc-text-bold rmcc-text-emphasis">About Us</span>
+                          <h2 class="rmcc-text-normal rmcc-margin-remove-top">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do.</h2>
+                        </div>
+                      </div>
+                      <div class="rmcc-position-bottom-right">
+                        <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-border-rounded" href="#">Learn more</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="rmcc-padding-remove-horizontal">
+                  <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-padding">
+                    <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-inline">
+                      <div class="rmcc-position-top-left">
+                        <div class="rmcc-width-3-4">
+                          <span class="rmcc-text-bold rmcc-text-emphasis">Our Sponsors</span>
+                          <h2 class="rmcc-text-normal rmcc-margin-remove-top">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium.</h2>
+                        </div>
+                      </div>
+                      <div class="rmcc-position-bottom-right">
+                        <a class="rmcc-button rmcc-button-secondary rmcc-border-rounded" href="#">Learn more</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+
+        <div id="PageHeroTwo" class="hero-bg rmcc-background-default" hidden>
+          <div class="hhero-bg-effect">
+  
+            <!-- header top -->
+            <div class="rmcc-cover-container rmcc-position-relative rmcc-visible-toggle rmcc-height-large mediumer">
+  
+              <!-- bg image -->
+              <img src="public/images/products-header-background.jpg" alt="" rmcc-cover>
+  
+              <!-- overlay -->
+              <!-- <div class="rmcc-overlay-primary rmcc-position-cover"></div> -->
+
+              <!-- header content -->
+              <div class="rmcc-light rmcc-position-absolute rmcc-position-bottom rmcc-height-1-1 rmcc-width-1-1 rmcc-flex rmcc-flex-center rmcc-flex-bottom rmcc-padding-large">
+                <div class="rmcc-container rmcc-text-center rmcc-light">
+                  <!-- <h5 class="rmcc-text-uppercase rmcc-heading-large">Lorem ipsum dolor amet</h5> -->
+                  <h1 class="rmcc-heading-large rmcc-margin-remove-top rmcc-margin-medium-bottom text-normal">MariaDB Enterprise Server</h1>
+                  <h1 class="rmcc-heading-small smaller rmcc-margin-remove-top rmcc-margin-medium-bottom text-normal">Production-Grade Open Source Database</h1>
+                  <!-- <p class="rmcc-text-large">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                  <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-text-emphasis rmcc-button-large rmcc-border-rounded rmcc-text-capitalize slight-bold rmcc-margin-top">
+                    <span class="uuurmcc-position-relative">View our Latest Jobs</span> <span rmcc-icon="icon: forward; ratio: 1.6"></span>
+                  </button> -->
+                </div>
+              </div>
+
+            </div>
+  
+            <!-- header bottom -->
+            <div class="rmcc-position-relative rmcc-visible-toggle rmcc-light" tabindex="0" rmcc-slider hidden>
+              <div class="rmcc-slider-items rmcc-child-width-1-2@m rmcc-grid-collapse rmcc-grid-divider rmcc-light rmcc-height-1-1 rmcc-margin-remove" rmcc-grid rmcc-height-viewport="offset-bottom: 74">
+                <div class="rmcc-padding-remove-horizontal">
+                  <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-padding">
+                    <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-inline">
+                      <div class="rmcc-position-top-left">
+                        <div class="rmcc-width-3-4">
+                          <span class="rmcc-text-bold rmcc-text-emphasis">About Us</span>
+                          <h2 class="rmcc-text-normal rmcc-margin-remove-top">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do.</h2>
+                        </div>
+                      </div>
+                      <div class="rmcc-position-bottom-right">
+                        <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-border-rounded" href="#">Learn more</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="rmcc-padding-remove-horizontal">
+                  <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-padding">
+                    <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-inline">
+                      <div class="rmcc-position-top-left">
+                        <div class="rmcc-width-3-4">
+                          <span class="rmcc-text-bold rmcc-text-emphasis">Our Sponsors</span>
+                          <h2 class="rmcc-text-normal rmcc-margin-remove-top">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium.</h2>
+                        </div>
+                      </div>
+                      <div class="rmcc-position-bottom-right">
+                        <a class="rmcc-button rmcc-button-secondary rmcc-border-rounded" href="#">Learn more</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+
+      </div>
+
+      <div id="Sections" hidden>
+    
+        <div id="About">
+          <div class="rmcc-section rmcc-section-default rmcc-background-effect">
+            <div class="rmcc-container rmcc-container-xsmall rmcc-text-center">
+              <h2 class="rmcc-text-bold rmcc-margin-remove-bottom">Lorem Ipsum Dolor Sit Amet</h2>
+              <!-- <hr class="rmcc-divider-small"> -->
+              <span class="rmcc-icon nice-blue">
+                <svg width="40" height="40" viewBox="0 0 20 20">
+                  <circle cx="3" cy="10" r="2" class="nice-light-blue"></circle>
+                  <circle cx="10" cy="10" r="2" class="nice-blue"></circle>
+                  <circle cx="17" cy="10" r="2" class="nice-green"></circle>
+                </svg>
+              </span>
+              <p class="rmcc-text-lead rmcc-margin-remove-top">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum voluptas nulla pariatur.</p>
+              <p class="rmcc-text-lead">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+              <p class="rmcc-text-lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti.</p>
+              <p class="rmcc-text-lead rmcc-margin-remove-bottom">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus.</p>
+              <!-- <hr class="rmcc-divider-small"> -->
+              <span class="rmcc-icon nice-blue">
+                <svg width="40" height="40" viewBox="0 0 20 20">
+                  <circle cx="3" cy="10" r="2" class="nice-light-blue"></circle>
+                  <circle cx="10" cy="10" r="2" class="nice-blue"></circle>
+                  <circle cx="17" cy="10" r="2" class="nice-green"></circle>
+                </svg>
+              </span>
+              <p class="rmcc-text-lead rmcc-text-bold rmcc-margin-remove-top">Lorem ipsum dolor #DoloremquVoluptatem</p>
+              <p class="rmcc-text-lead rmcc-text-bold">Quis autem vel eum iure reprehenderit qui in ea voluptate</p>
+            </div>
+          </div>
+          <div class="rmcc-section-large rmcc-section-secondary rmcc-background-material" hidden>
+            <div class="rmcc-container rmcc-container-xsmall rmcc-text-center">
+              <h2 class="rmcc-text-bold">Lorem Ipsum Dolor Sit Amet</h2>
+              <hr class="rmcc-divider-small">
+              <p class="rmcc-text-lead">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum voluptas nulla pariatur.</p>
+              <p class="rmcc-text-lead">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+              <p class="rmcc-text-lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti.</p>
+              <p class="rmcc-text-lead">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus.</p>
+              <hr class="rmcc-divider-small">
+              <p class="rmcc-text-lead rmcc-text-bold rmcc-text-emphasis">Lorem ipsum dolor #DoloremquVoluptatem</p>
+              <p class="rmcc-text-lead rmcc-text-bold rmcc-text-emphasis">Quis autem vel eum iure reprehenderit qui in ea voluptate</p>
+            </div>
+          </div>
+        </div>
+    
+        <div id="Buttons">
+          <div class="rmcc-section-small rmcc-container">
+            <div>
+              <h2>Defaults</h2>
+              <p rmcc-margin>
+                <a class="rmcc-button rmcc-button-default rmcc-button-small" href="#">Link</a>
+                <a class="rmcc-button rmcc-button-default rmcc-button-small rmcc-border-rounded" href="#">Link</a>
+              </p>
+              <p rmcc-margin>
+                <a class="rmcc-button rmcc-button-default" href="#">Link</a>
+                <a class="rmcc-button rmcc-button-default rmcc-border-rounded" href="#">Link</a>
+              </p>
+              <p rmcc-margin>
+                <a class="rmcc-button rmcc-button-default rmcc-button-large" href="#">Link</a>
+                <a class="rmcc-button rmcc-button-default rmcc-button-large rmcc-border-rounded" href="#">Link</a>
+              </p>
+            </div>
+            <div>
+              <h2>Fat Defaults</h2>
+              <p rmcc-margin>
+                <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-button-small" href="#">Link</a>
+                <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-button-small rmcc-border-rounded" href="#">Link</a>
+              </p>
+              <p rmcc-margin>
+                <a class="rmcc-button rmcc-button-default rmcc-button-fat" href="#">Link</a>
+                <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-border-rounded" href="#">Link</a>
+              </p>
+              <p rmcc-margin>
+                <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-button-large" href="#">Link</a>
+                <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-button-large rmcc-border-rounded" href="#">Link</a>
+              </p>
+            </div>
+            <div>
+              <h2>Solid Colours</h2>
+              <p rmcc-margin>
+                <button class="rmcc-button rmcc-button-primary rmcc-button-small">Button</button>
+                <button class="rmcc-button rmcc-button-primary rmcc-button-green rmcc-button-small">Button</button>
+                <button class="rmcc-button rmcc-button-secondary rmcc-button-small">Button</button>
+                <button class="rmcc-button rmcc-button-danger rmcc-button-small">Button</button>
+              </p>
+              <p rmcc-margin>
+                <button class="rmcc-button rmcc-button-primary">Button</button>
+                <button class="rmcc-button rmcc-button-primary rmcc-button-green">Button</button>
+                <button class="rmcc-button rmcc-button-secondary">Button</button>
+                <button class="rmcc-button rmcc-button-danger">Button</button>
+              </p>
+              <p rmcc-margin>
+                <button class="rmcc-button rmcc-button-primary rmcc-button-large">Button</button>
+                <button class="rmcc-button rmcc-button-primary rmcc-button-green rmcc-button-large">Button</button>
+                <button class="rmcc-button rmcc-button-secondary rmcc-button-large">Button</button>
+                <button class="rmcc-button rmcc-button-danger rmcc-button-large">Button</button>
+              </p>
+            </div>
+            <div>
+              <h2>Rounded Solid Colours</h2>
+              <p rmcc-margin>
+                <button class="rmcc-button rmcc-button-primary rmcc-button-small rmcc-border-rounded">Button</button>
+                <button class="rmcc-button rmcc-button-primary rmcc-button-green rmcc-button-small rmcc-border-rounded">Button</button>
+                <button class="rmcc-button rmcc-button-secondary rmcc-button-small rmcc-border-rounded">Button</button>
+                <button class="rmcc-button rmcc-button-danger rmcc-button-small rmcc-border-rounded">Button</button>
+              </p>
+              <p rmcc-margin>
+                <button class="rmcc-button rmcc-button-primary rmcc-border-rounded">Button</button>
+                <button class="rmcc-button rmcc-button-primary rmcc-button-green rmcc-border-rounded">Button</button>
+                <button class="rmcc-button rmcc-button-secondary rmcc-border-rounded">Button</button>
+                <button class="rmcc-button rmcc-button-danger rmcc-border-rounded">Button</button>
+              </p>
+              <p rmcc-margin>
+                <button class="rmcc-button rmcc-button-primary rmcc-button-large rmcc-border-rounded">Button</button>
+                <button class="rmcc-button rmcc-button-primary rmcc-button-green rmcc-button-large rmcc-border-rounded">Button</button>
+                <button class="rmcc-button rmcc-button-secondary rmcc-button-large rmcc-border-rounded">Button</button>
+                <button class="rmcc-button rmcc-button-danger rmcc-button-large rmcc-border-rounded">Button</button>
+              </p>
+            </div>
+            <div>
+              <h2>Solid Gradients</h2>
+              <p rmcc-margin>
+                <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-button-small">Button</button>
+                <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-button-small rmcc-border-rounded">Button</button>
+              </p>
+              <p rmcc-margin>
+                <button class="rmcc-button rmcc-button-danger rmcc-button-gradient">Button</button>
+                <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-border-rounded">Button</button>
+              </p>
+              <p rmcc-margin>
+                <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-button-large">Button</button>
+                <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-button-large rmcc-border-rounded">Button</button>
+              </p>
+            </div>
+            <div>
+              <h2>Line Gradients</h2>
+              <p rmcc-margin>
+                <a class="rmcc-button rmcc-button-default rmcc-button-gradient rmcc-button-small" href="#">Link</a>
+                <a class="rmcc-button rmcc-button-default rmcc-button-gradient rmcc-button-small rmcc-border-rounded" href="#">Link</a>
+              </p>
+              <p rmcc-margin>
+                <a class="rmcc-button rmcc-button-default rmcc-button-gradient" href="#">Link</a>
+                <a class="rmcc-button rmcc-button-default rmcc-button-gradient rmcc-border-rounded" href="#">Link</a>
+              </p>
+              <p rmcc-margin>
+                <a class="rmcc-button rmcc-button-default rmcc-button-gradient rmcc-button-large" href="#">Link</a>
+                <a class="rmcc-button rmcc-button-default rmcc-button-gradient rmcc-button-large rmcc-border-rounded" href="#">Link</a>
+              </p>
+            </div>
+          </div>
+          <div class="rmcc-section-secondary">
+            <div class="rmcc-section-small rmcc-container rmcc-light">
+              <div>
+                <h2>Defaults</h2>
+                <p rmcc-margin>
+                  <a class="rmcc-button rmcc-button-default rmcc-button-small" href="#">Link</a>
+                  <a class="rmcc-button rmcc-button-default rmcc-button-small rmcc-border-rounded" href="#">Link</a>
+                </p>
+                <p rmcc-margin>
+                  <a class="rmcc-button rmcc-button-default" href="#">Link</a>
+                  <a class="rmcc-button rmcc-button-default rmcc-border-rounded" href="#">Link</a>
+                </p>
+                <p rmcc-margin>
+                  <a class="rmcc-button rmcc-button-default rmcc-button-large" href="#">Link</a>
+                  <a class="rmcc-button rmcc-button-default rmcc-button-large rmcc-border-rounded" href="#">Link</a>
+                </p>
+              </div>
+              <div>
+                <h2>Fat Defaults</h2>
+                <p rmcc-margin>
+                  <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-button-small" href="#">Link</a>
+                  <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-button-small rmcc-border-rounded" href="#">Link</a>
+                </p>
+                <p rmcc-margin>
+                  <a class="rmcc-button rmcc-button-default rmcc-button-fat" href="#">Link</a>
+                  <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-border-rounded" href="#">Link</a>
+                </p>
+                <p rmcc-margin>
+                  <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-button-large" href="#">Link</a>
+                  <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-button-large rmcc-border-rounded" href="#">Link</a>
+                </p>
+              </div>
+              <div>
+                <h2>Solid Colours</h2>
+                <p rmcc-margin>
+                  <button class="rmcc-button rmcc-button-primary rmcc-button-small">Button</button>
+                  <button class="rmcc-button rmcc-button-primary rmcc-button-green rmcc-button-small">Button</button>
+                  <button class="rmcc-button rmcc-button-secondary rmcc-button-small">Button</button>
+                  <button class="rmcc-button rmcc-button-danger rmcc-button-small">Button</button>
+                </p>
+                <p rmcc-margin>
+                  <button class="rmcc-button rmcc-button-primary">Button</button>
+                  <button class="rmcc-button rmcc-button-primary rmcc-button-green">Button</button>
+                  <button class="rmcc-button rmcc-button-secondary">Button</button>
+                  <button class="rmcc-button rmcc-button-danger">Button</button>
+                </p>
+                <p rmcc-margin>
+                  <button class="rmcc-button rmcc-button-primary rmcc-button-large">Button</button>
+                  <button class="rmcc-button rmcc-button-primary rmcc-button-green rmcc-button-large">Button</button>
+                  <button class="rmcc-button rmcc-button-secondary rmcc-button-large">Button</button>
+                  <button class="rmcc-button rmcc-button-danger rmcc-button-large">Button</button>
+                </p>
+              </div>
+              <div>
+                <h2>Rounded Solid Colours</h2>
+                <p rmcc-margin>
+                  <button class="rmcc-button rmcc-button-primary rmcc-button-small rmcc-border-rounded">Button</button>
+                  <button class="rmcc-button rmcc-button-primary rmcc-button-green rmcc-button-small rmcc-border-rounded">Button</button>
+                  <button class="rmcc-button rmcc-button-secondary rmcc-button-small rmcc-border-rounded">Button</button>
+                  <button class="rmcc-button rmcc-button-danger rmcc-button-small rmcc-border-rounded">Button</button>
+                </p>
+                <p rmcc-margin>
+                  <button class="rmcc-button rmcc-button-primary rmcc-border-rounded">Button</button>
+                  <button class="rmcc-button rmcc-button-primary rmcc-button-green rmcc-border-rounded">Button</button>
+                  <button class="rmcc-button rmcc-button-secondary rmcc-border-rounded">Button</button>
+                  <button class="rmcc-button rmcc-button-danger rmcc-border-rounded">Button</button>
+                </p>
+                <p rmcc-margin>
+                  <button class="rmcc-button rmcc-button-primary rmcc-button-large rmcc-border-rounded">Button</button>
+                  <button class="rmcc-button rmcc-button-primary rmcc-button-green rmcc-button-large rmcc-border-rounded">Button</button>
+                  <button class="rmcc-button rmcc-button-secondary rmcc-button-large rmcc-border-rounded">Button</button>
+                  <button class="rmcc-button rmcc-button-danger rmcc-button-large rmcc-border-rounded">Button</button>
+                </p>
+              </div>
+              <div>
+                <h2>Solid Gradients</h2>
+                <p rmcc-margin>
+                  <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-button-small">Button</button>
+                  <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-button-small rmcc-border-rounded">Button</button>
+                </p>
+                <p rmcc-margin>
+                  <button class="rmcc-button rmcc-button-danger rmcc-button-gradient">Button</button>
+                  <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-border-rounded">Button</button>
+                </p>
+                <p rmcc-margin>
+                  <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-button-large">Button</button>
+                  <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-button-large rmcc-border-rounded">Button</button>
+                </p>
+              </div>
+              <div>
+                <h2>Line Gradients</h2>
+                <p rmcc-margin>
+                  <a class="rmcc-button rmcc-button-default rmcc-button-gradient rmcc-button-small" href="#">Link</a>
+                  <a class="rmcc-button rmcc-button-default rmcc-button-gradient rmcc-button-small rmcc-border-rounded" href="#">Link</a>
+                </p>
+                <p rmcc-margin>
+                  <a class="rmcc-button rmcc-button-default rmcc-button-gradient" href="#">Link</a>
+                  <a class="rmcc-button rmcc-button-default rmcc-button-gradient rmcc-border-rounded" href="#">Link</a>
+                </p>
+                <p rmcc-margin>
+                  <a class="rmcc-button rmcc-button-default rmcc-button-gradient rmcc-button-large" href="#">Link</a>
+                  <a class="rmcc-button rmcc-button-default rmcc-button-gradient rmcc-button-large rmcc-border-rounded" href="#">Link</a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div hidden>
+            <div class="rmcc-child-width-1-4@m" rmcc-grid>
+              <div class="rmcc-width-1-2@m">
+                <h2>Styles</h2>
+                <p rmcc-margin>
+                  <a class="rmcc-button rmcc-button-default" href="#">Link</a>
+                  <button class="rmcc-button rmcc-button-default">Button</button>
+                  <input type="submit" class="rmcc-button rmcc-button-default" value="Input">
+                  <button class="rmcc-button rmcc-button-default" disabled>Disabled</button>
+                </p>
+                <p rmcc-margin>
+                  <a class="rmcc-button rmcc-button-primary" href="#">Link</a>
+                  <button class="rmcc-button rmcc-button-primary">Button</button>
+                  <input type="submit" class="rmcc-button rmcc-button-primary" value="Input">
+                  <button class="rmcc-button rmcc-button-primary" disabled>Disabled</button>
+                </p>
+                <p rmcc-margin>
+                  <a class="rmcc-button rmcc-button-secondary" href="#">Link</a>
+                  <button class="rmcc-button rmcc-button-secondary">Button</button>
+                  <input type="submit" class="rmcc-button rmcc-button-secondary" value="Input">
+                  <button class="rmcc-button rmcc-button-secondary" disabled>Disabled</button>
+                </p>
+                <p rmcc-margin>
+                  <a class="rmcc-button rmcc-button-danger" href="#">Link</a>
+                  <button class="rmcc-button rmcc-button-danger">Button</button>
+                  <input type="submit" class="rmcc-button rmcc-button-danger" value="Input">
+                  <button class="rmcc-button rmcc-button-danger" disabled>Disabled</button>
+                </p>
+                <p rmcc-margin>
+                  <a class="rmcc-button rmcc-button-danger rmcc-button-gradient" href="#">Link</a>
+                  <button class="rmcc-button rmcc-button-danger rmcc-button-gradient">Button</button>
+                  <input type="submit" class="rmcc-button rmcc-button-danger rmcc-button-gradient" value="Input">
+                  <button class="rmcc-button rmcc-button-danger" disabled>Disabled</button>
+                </p>
+              </div>
+              <div>
+                <h2>Text</h2>
+                <p rmcc-margin>
+                  <a class="rmcc-button rmcc-button-text" href="#">Link</a>
+                  <button class="rmcc-button rmcc-button-text">Button</button>
+                  <input type="submit" class="rmcc-button rmcc-button-text" value="Input">
+                  <button class="rmcc-button rmcc-button-text" disabled>Disabled</button>
+                </p>
+              </div>
+              <div>
+                <h2>Link</h2>
+                <p rmcc-margin>
+                  <button class="rmcc-button rmcc-button-default">Button</button>
+                  <button class="rmcc-button rmcc-button-link">Button</button>
+                </p>
+                <p rmcc-margin>
+                  <button class="rmcc-button rmcc-button-default" disabled>Button</button>
+                  <button class="rmcc-button rmcc-button-link" disabled>Button</button>
+                </p>
+                <p rmcc-margin>
+                  <a href="#">Link</a>
+                  <button class="rmcc-button rmcc-button-link rmcc-text-baseline">Button</button>
+                </p>
+              </div>
+            </div>
+            <h2>Size</h2>
+            <p rmcc-margin>
+              <a class="rmcc-button rmcc-button-default rmcc-button-small" href="#">Link</a>
+              <button class="rmcc-button rmcc-button-primary rmcc-button-small">Button</button>
+              <button class="rmcc-button rmcc-button-primary rmcc-button-green rmcc-button-small">Button</button>
+              <button class="rmcc-button rmcc-button-secondary rmcc-button-small">Button</button>
+              <button class="rmcc-button rmcc-button-danger rmcc-button-small">Button</button>
+              <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-button-small">Button</button>
+              <button class="rmcc-button rmcc-button-default rmcc-button-small" disabled>Disabled</button>
+              <button class="rmcc-button rmcc-button-text rmcc-button-small">Button</button>
+            </p>
+            <p rmcc-margin>
+              <a class="rmcc-button rmcc-button-default rmcc-button-large" href="#">Link</a>
+              <button class="rmcc-button rmcc-button-primary rmcc-button-large">Button</button>
+              <button class="rmcc-button rmcc-button-primary rmcc-button-green rmcc-button-large">Button</button>
+              <button class="rmcc-button rmcc-button-secondary rmcc-button-large">Button</button>
+              <button class="rmcc-button rmcc-button-danger rmcc-button-large">Button</button>
+              <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-button-large">Button</button>
+              <button class="rmcc-button rmcc-button-default rmcc-button-large" disabled>Disabled</button>
+              <button class="rmcc-button rmcc-button-text rmcc-button-large">Button</button>
+            </p>
+            <h2>Group</h2>
+            <div class="rmcc-margin" rmcc-margin>
+              <div class="rmcc-button-group">
+                <a class="rmcc-button rmcc-button-default rmcc-button-small" href="#">Link</a>
+                <button class="rmcc-button rmcc-button-default rmcc-button-small">Button</button>
+                <button class="rmcc-button rmcc-button-default rmcc-button-small">Button</button>
+              </div>
+              <div class="rmcc-button-group">
+                <a class="rmcc-button rmcc-button-primary rmcc-button-small" href="#">Link</a>
+                <button class="rmcc-button rmcc-button-primary rmcc-button-small">Button</button>
+                <button class="rmcc-button rmcc-button-primary rmcc-button-small">Button</button>
+              </div>
+              <div class="rmcc-button-group">
+                <a class="rmcc-button rmcc-button-secondary rmcc-button-small" href="#">Link</a>
+                <button class="rmcc-button rmcc-button-secondary rmcc-button-small">Button</button>
+                <button class="rmcc-button rmcc-button-secondary rmcc-button-small">Button</button>
+              </div>
+              <div class="rmcc-button-group">
+                <a class="rmcc-button rmcc-button-danger rmcc-button-small" href="#">Link</a>
+                <button class="rmcc-button rmcc-button-danger rmcc-button-small">Button</button>
+                <button class="rmcc-button rmcc-button-danger rmcc-button-small">Button</button>
+              </div>
+              <div class="rmcc-button-group">
+                <button class="rmcc-button rmcc-button-default rmcc-button-small" disabled>Button</button>
+                <button class="rmcc-button rmcc-button-default rmcc-button-small" disabled>Button</button>
+                <button class="rmcc-button rmcc-button-default rmcc-button-small" disabled>Button</button>
+              </div>
+            </div>
+            <div class="rmcc-margin" rmcc-margin>
+              <div class="rmcc-button-group">
+                <a class="rmcc-button rmcc-button-default" href="#">Link</a>
+                <button class="rmcc-button rmcc-button-default">Button</button>
+                <button class="rmcc-button rmcc-button-default">Button</button>
+              </div>
+              <div class="rmcc-button-group">
+                <a class="rmcc-button rmcc-button-primary" href="#">Link</a>
+                <button class="rmcc-button rmcc-button-primary">Button</button>
+                <button class="rmcc-button rmcc-button-primary">Button</button>
+              </div>
+              <div class="rmcc-button-group">
+                <a class="rmcc-button rmcc-button-secondary" href="#">Link</a>
+                <button class="rmcc-button rmcc-button-secondary">Button</button>
+                <button class="rmcc-button rmcc-button-secondary">Button</button>
+              </div>
+              <div class="rmcc-button-group">
+                <a class="rmcc-button rmcc-button-danger" href="#">Link</a>
+                <button class="rmcc-button rmcc-button-danger">Button</button>
+                <button class="rmcc-button rmcc-button-danger">Button</button>
+              </div>
+              <div class="rmcc-button-group">
+                <button class="rmcc-button rmcc-button-default" disabled>Button</button>
+                <button class="rmcc-button rmcc-button-default" disabled>Button</button>
+                <button class="rmcc-button rmcc-button-default" disabled>Button</button>
+              </div>
+            </div>
+            <div class="rmcc-margin" rmcc-margin>
+              <div class="rmcc-button-group">
+                <a class="rmcc-button rmcc-button-default rmcc-button-large" href="#">Link</a>
+                <button class="rmcc-button rmcc-button-default rmcc-button-large">Button</button>
+                <button class="rmcc-button rmcc-button-default rmcc-button-large">Button</button>
+              </div>
+              <div class="rmcc-button-group">
+                <a class="rmcc-button rmcc-button-primary rmcc-button-large" href="#">Link</a>
+                <button class="rmcc-button rmcc-button-primary rmcc-button-large">Button</button>
+                <button class="rmcc-button rmcc-button-primary rmcc-button-large">Button</button>
+              </div>
+              <div class="rmcc-button-group">
+                <a class="rmcc-button rmcc-button-secondary rmcc-button-large" href="#">Link</a>
+                <button class="rmcc-button rmcc-button-secondary rmcc-button-large">Button</button>
+                <button class="rmcc-button rmcc-button-secondary rmcc-button-large">Button</button>
+              </div>
+              <div class="rmcc-button-group">
+                <a class="rmcc-button rmcc-button-danger rmcc-button-large" href="#">Link</a>
+                <button class="rmcc-button rmcc-button-danger rmcc-button-large">Button</button>
+                <button class="rmcc-button rmcc-button-danger rmcc-button-large">Button</button>
+              </div>
+              <div class="rmcc-button-group">
+                <button class="rmcc-button rmcc-button-default rmcc-button-large" disabled>Button</button>
+                <button class="rmcc-button rmcc-button-default rmcc-button-large" disabled>Button</button>
+                <button class="rmcc-button rmcc-button-default rmcc-button-large" disabled>Button</button>
+              </div>
+            </div>
+            <h2>Group with Drop</h2>
+            <div class="rmcc-margin" rmcc-margin>
+              <div class="rmcc-button-group">
+                <button class="rmcc-button rmcc-button-default">Group</button>
+                <div class="rmcc-inline">
+                  <button class="rmcc-button rmcc-button-default" type="button"><span rmcc-icon="icon: table"></span></button>
+                  <div rmcc-drop="mode: click">
+                    <div class="rmcc-card rmcc-card-body rmcc-card-default">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-button-group">
+                <button class="rmcc-button rmcc-button-primary">Group</button>
+                <div class="rmcc-inline">
+                  <button class="rmcc-button rmcc-button-primary" type="button"><span rmcc-icon="icon: table"></span></button>
+                  <div rmcc-drop="mode: click">
+                    <div class="rmcc-card rmcc-card-body rmcc-card-default">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-button-group">
+                <button class="rmcc-button rmcc-button-secondary">Group</button>
+                <div class="rmcc-inline">
+                  <button class="rmcc-button rmcc-button-secondary" type="button"><span rmcc-icon="icon: table"></span></button>
+                  <div rmcc-drop="mode: click">
+                    <div class="rmcc-card rmcc-card-body rmcc-card-default">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-button-group">
+                <button class="rmcc-button rmcc-button-danger">Group</button>
+                <div class="rmcc-inline">
+                  <button class="rmcc-button rmcc-button-danger" type="button"><span rmcc-icon="icon: table"></span></button>
+                  <div rmcc-drop="mode: click">
+                    <div class="rmcc-card rmcc-card-body rmcc-card-default">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div id="LeftRights">
+    
+          <div class="rmcc-grid-collapse rmcc-child-width-1-2@m rmcc-grid-match" rmcc-grid>
+            <div class="rmcc-background-cover rmcc-height-large" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+            <div class="rmcc-flex rmcc-flex-middle rmcc-padding-large">
+              <div class="rmcc-width-1-2@m">
+                <h1 class="rmcc-heading-bullet">Heading Bullet</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <button class="rmcc-button rmcc-button-primary">Primary</button>
+              </div>
+            </div>
+          </div>
+    
+          <div class="rmcc-grid-collapse rmcc-child-width-1-2@m rmcc-grid-match" rmcc-grid>
+            <div class="rmcc-background-cover rmcc-height-large" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+            <div class="rmcc-background-muted rmcc-flex-first@m">
+              <div class="rmcc-flex rmcc-flex-middle rmcc-flex-right@m rmcc-text-right@m rmcc-padding-large">
+                <div class="rmcc-width-1-2@m">
+                  <h1 class="rmcc-heading-bullet">Heading Bullet</h1>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  <button class="rmcc-button rmcc-button-primary">Primary</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="rmcc-grid-collapse rmcc-child-width-1-2@m rmcc-grid-match" rmcc-grid>
+            <div class="rmcc-background-cover rmcc-height-large" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+            <div class="rmcc-background-primary rmcc-light">
+              <div class="rmcc-flex rmcc-flex-middle rmcc-padding-large">
+                <div class="rmcc-width-1-2@m">
+                  <h1 class="rmcc-heading-bullet">Heading Bullet</h1>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  <button class="rmcc-button rmcc-button-primary">Primary</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="rmcc-grid-collapse rmcc-child-width-1-2@m rmcc-grid-match" rmcc-grid>
+            <div class="rmcc-background-cover rmcc-height-large" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+            <div class="rmcc-flex-first@m rmcc-background-secondary rmcc-light">
+              <div class="rmcc-flex rmcc-flex-middle rmcc-flex-right@m rmcc-text-right@m rmcc-padding-large">
+                <div class="rmcc-width-1-2@m">
+                  <h1 class="rmcc-heading-bullet">Heading Bullet</h1>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  <button class="rmcc-button rmcc-button-primary">Primary</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="rmcc-grid-collapse rmcc-child-width-1-2@m rmcc-grid-match" rmcc-grid>
+            <div class="rmcc-background-cover rmcc-height-large" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+            <div class="rmcc-background-primary rmcc-background-gradient rmcc-light">
+              <div class="rmcc-flex rmcc-flex-middle rmcc-padding-large">
+                <div class="rmcc-width-1-2@m">
+                  <h1 class="rmcc-heading-bullet">Heading Bullet</h1>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  <button class="rmcc-button rmcc-button-primary">Primary</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+        </div>
+  
+        <div id="ContainedLeftRights">
+          <div class="rmcc-background-muted">
+            <div class="rmcc-section-small rmcc-container">
+              <div id="ContainedRightLeft" class="rmcc-margin">
+                <div class="rmcc-grid-collapse rmcc-flex-middle" rmcc-grid>
+                  <div class="rmcc-background-cover rmcc-height-medium rmcc-width-3-5@m" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+                  <div class="rmcc-padding-large rmcc-padding-remove-left rmcc-width-expand rmcc-flex-first@m">
+                    <div class="uuurmcc-width-4-5@m">
+                      <h1 class="rmcc-heading-bullet">Heading Bullet</h1>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                      <button class="rmcc-button rmcc-button-primary">Primary</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="ContainedLeftRight" class="">
+                <div class="rmcc-grid-collapse rmcc-flex-middle" rmcc-grid>
+                  <div class="rmcc-background-cover rmcc-height-medium rmcc-width-3-5@m" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+                  <div class="rmcc-padding-large rmcc-padding-remove-right rmcc-width-expand">
+                    <div class="uuurmcc-width-4-5@m">
+                      <h1 class="rmcc-heading-bullet">Heading Bullet</h1>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                      <button class="rmcc-button rmcc-button-primary">Primary</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div id="SexyTabs">
+          <div class="rmcc-section rmcc-container rmcc-container-xlarge">
+            <ul class="rmcc-subnav rmcc-subnav-pill rmcc-flex-left" rmcc-switcher>
+              <li class="rmcc-active"><a href="#">Ballinagore</a></li>
+              <li><a href="#">Ballymore</a></li>
+              <li><a href="#">Castletown Geoghegan</a></li>
+              <li><a href="#">Dysart</a></li>
+              <li><a href="#">Horseleap</a></li>
+              <li><a href="#">Kilbeggan</a></li>
+              <li><a href="#">Loughnavalley</a></li>
+              <li><a href="#">Milltownpass</a></li>
+              <li><a href="#">Rosemount</a></li>
+              <li><a href="#">Streamstown</a></li>
+              <li><a href="#">Tyrrellspass</a></li>
+            </ul>
+            <div class="rmcc-switcher">
+              <div class="rmcc-padding">
+                <div class="rmcc-grid-collapse rmcc-flex-middle" rmcc-grid>
+                  <div class="rmcc-width-1-3@m rmcc-background-cover rmcc-height-medium" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+                  <div class="rmcc-width-2-3@m rmcc-padding">
+                    <div class="rmcc-width-1-2">
+                      <h3>Ballinagore</h3>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                      <button class="rmcc-button rmcc-button-primary">Learn more</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-padding">
+                <div class="rmcc-grid-collapse rmcc-flex-middle" rmcc-grid>
+                  <div class="rmcc-width-1-3@m rmcc-background-cover rmcc-height-medium" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+                  <div class="rmcc-width-2-3@m rmcc-padding">
+                    <div class="rmcc-width-1-2">
+                      <h3>Ballymore</h3>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                      <button class="rmcc-button rmcc-button-primary">Learn more</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-padding">
+                <div class="rmcc-grid-collapse rmcc-flex-middle" rmcc-grid>
+                  <div class="rmcc-width-1-3@m rmcc-background-cover rmcc-height-medium" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+                  <div class="rmcc-width-2-3@m rmcc-padding">
+                    <div class="rmcc-width-1-2">
+                      <h3>Castletown Geoghegan</h3>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                      <button class="rmcc-button rmcc-button-primary">Learn more</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-padding">
+                <div class="rmcc-grid-collapse rmcc-flex-middle" rmcc-grid>
+                  <div class="rmcc-width-1-3@m rmcc-background-cover rmcc-height-medium" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+                  <div class="rmcc-width-2-3@m rmcc-padding">
+                    <div class="rmcc-width-1-2">
+                      <h3>Dysart</h3>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                      <button class="rmcc-button rmcc-button-primary">Learn more</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-padding">
+                <div class="rmcc-grid-collapse rmcc-flex-middle" rmcc-grid>
+                  <div class="rmcc-width-1-3@m rmcc-background-cover rmcc-height-medium" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+                  <div class="rmcc-width-2-3@m rmcc-padding">
+                    <div class="rmcc-width-1-2">
+                      <h3>Horseleap</h3>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                      <button class="rmcc-button rmcc-button-primary">Learn more</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-padding">
+                <div class="rmcc-grid-collapse rmcc-flex-middle" rmcc-grid>
+                  <div class="rmcc-width-1-3@m rmcc-background-cover rmcc-height-medium" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+                  <div class="rmcc-width-2-3@m rmcc-padding">
+                    <div class="rmcc-width-1-2">
+                      <h3>Kilbeggan</h3>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                      <button class="rmcc-button rmcc-button-primary">Learn more</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-padding">
+                <div class="rmcc-grid-collapse rmcc-flex-middle" rmcc-grid>
+                  <div class="rmcc-width-1-3@m rmcc-background-cover rmcc-height-medium" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+                  <div class="rmcc-width-2-3@m rmcc-padding">
+                    <div class="rmcc-width-1-2">
+                      <h3>Loughnavalley</h3>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                      <button class="rmcc-button rmcc-button-primary">Learn more</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-padding">
+                <div class="rmcc-grid-collapse rmcc-flex-middle" rmcc-grid>
+                  <div class="rmcc-width-1-3@m rmcc-background-cover rmcc-height-medium" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+                  <div class="rmcc-width-2-3@m rmcc-padding">
+                    <div class="rmcc-width-1-2">
+                      <h3>Milltownpass</h3>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                      <button class="rmcc-button rmcc-button-primary">Learn more</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-padding">
+                <div class="rmcc-grid-collapse rmcc-flex-middle" rmcc-grid>
+                  <div class="rmcc-width-1-3@m rmcc-background-cover rmcc-height-medium" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+                  <div class="rmcc-width-2-3@m rmcc-padding">
+                    <div class="rmcc-width-1-2">
+                      <h3>Rosemount</h3>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                      <button class="rmcc-button rmcc-button-primary">Learn more</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-padding">
+                <div class="rmcc-grid-collapse rmcc-flex-middle" rmcc-grid>
+                  <div class="rmcc-width-1-3@m rmcc-background-cover rmcc-height-medium" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+                  <div class="rmcc-width-2-3@m rmcc-padding">
+                    <div class="rmcc-width-1-2">
+                      <h3>Streamstown</h3>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                      <button class="rmcc-button rmcc-button-primary">Learn more</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-padding">
+                <div class="rmcc-grid-collapse rmcc-flex-middle" rmcc-grid>
+                  <div class="rmcc-width-1-3@m rmcc-background-cover rmcc-height-medium" style="background-image: url('https://getuikit.com/docs/images/photo.jpg');"></div>
+                  <div class="rmcc-width-2-3@m rmcc-padding">
+                    <div class="rmcc-width-1-2">
+                      <h3>Tyrrellspass</h3>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                      <button class="rmcc-button rmcc-button-primary">Learn more</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="Markers">
+          <div class="rmcc-container rmcc-section rmcc-flex rmcc-flex-center">
+            <div class="rmcc-inline">
+              <img src="public/images/map.png" class="rmcc-width-1-1" alt="">
+
+              <a id="Mullingar" class="rmcc-position-absolute rmcc-transform-center rmcc-marker" style="left: 61.5%; top: 56%" href="#" rmcc-marker></a>
+              <a id="Castletown" class="rmcc-position-absolute rmcc-transform-center rmcc-marker" style="left: 48%; top: 71%" href="#" rmcc-marker></a>
+              <a id="Kilbeggan" class="rmcc-position-absolute rmcc-transform-center rmcc-marker" style="left: 47.5%; top: 86%" href="#" rmcc-marker></a>
+              <a id="Dysart" class="rmcc-position-absolute rmcc-transform-center rmcc-marker" style="left: 51%; top: 66%" href="#" rmcc-marker></a>
+              <a id="Ballynagore" class="rmcc-position-absolute rmcc-transform-center rmcc-marker" style="left: 50.6%; top: 78%" href="#" rmcc-marker></a>
+              <a id="Ballymore" class="rmcc-position-absolute rmcc-transform-center rmcc-marker" style="left: 32%; top: 62%" href="#" rmcc-marker></a>
+              <a id="Horseleap" class="rmcc-position-absolute rmcc-transform-center rmcc-marker" style="left: 41%; top: 83%" href="#" rmcc-marker></a>
+              <a id="Tyrellspass" class="rmcc-position-absolute rmcc-transform-center rmcc-marker" style="left: 58%; top: 82%" href="#" rmcc-marker></a>
+              <a id="Milltownpass" class="rmcc-position-absolute rmcc-transform-center rmcc-marker" style="left: 70.5%; top: 72%" href="#" rmcc-marker></a>
+              <a id="Loughnavalley" class="rmcc-position-absolute rmcc-transform-center rmcc-marker" style="left: 45%; top: 63%" href="#" rmcc-marker></a>
+              <a id="Streamstown" class="rmcc-position-absolute rmcc-transform-center rmcc-marker" style="left: 40.5%; top: 73%" href="#" rmcc-marker></a>
+              <a id="Rosemount" class="rmcc-position-absolute rmcc-transform-center rmcc-marker" style="left: 34.5%; top: 74%" href="#" rmcc-marker></a>
+
+            </div>
+          </div>
+        </div>
+  
+      </div>
+
+      <div id="PageOne" hidden>
+
+        <!-- subnav -->
+        <section class="rmcc-container rmcc-section rmcc-padding-remove-bottom">
+          <div class="rmcc-flex rmcc-flex-center">
+            <ul class="rmcc-subnav rmcc-subnav-divider rmcc-page-subnav" rmcc-margin>
+              <li class="rmcc-active"><a href="#">Overview</a></li>
+              <li><a href="#">Components</a></li>
+              <li><a href="#">Capabilities</a></li>
+              <li><a href="#">Use Cases</a></li>
+              <li><a href="#">Comparison</a></li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- heading & paragraph -->
+        <section class="rmcc-container rmcc-section rmcc-section-small rmcc-padding-remove-bottom">
+          <div class="rmcc-text-center">
+            <h2 class="rmcc-text-primary rmcc-text-uppercase rmcc-heading-small">CLOUD NATIVE AND Enterprise-Grade</h2>
+            <p class="rmcc-text-lead">MariaDB Enterprise Server is a premium version of <a href="#">MariaDB Community Server</a>. It runs anywhere – public, private and hybrid cloud. With its purpose-built storage engine architecture, MariaDB Enterprise Server supports transactional, analytical and mixed workloads for relational and JSON data models. Popular new features are backported to older release versions so customers do not have to upgrade to the latest version to experience the newest innovation.</p>
+          </div>
+        </section>
+
+        <!-- duo buttons -->
+        <section class="rmcc-container rmcc-section-large rmcc-flex rmcc-flex-center">
+          <a class="rmcc-button rmcc-button-primary rmcc-button-large rmcc-border-rounded solid-border rmcc-margin-small-right rmcc-text-capitalize" href="#">Whats New in Enterprise Server</a>
+          <a class="rmcc-button rmcc-button-default rmcc-button-gradient rmcc-button-large rmcc-border-rounded rmcc-text-capitalize" href="#">10 Reasons to Switch to MariaDB</a>
+        </section>
+
+        <!-- heading & paragraph -->
+        <section class="rmcc-container rmcc-container-small rmcc-text-center">
+          <h2 class="rmcc-text-primary rmcc-text-uppercase rmcc-heading-small">Customers</h2>
+          <p>Customers choose MariaDB Enterprise Server because its open source and an enhanced, hardened and secured version of MariaDB Community Server with enterprise reliability, stability and long-term support as well as greater operational efficiency when it comes to managing large database deployments for business- and mission-critical applications.</p>
+        </section>
+
+        <!-- hover blocks -->
+        <section class="rmcc-container rmcc-section-small">
+          <ul class="rmcc-grid-small rmcc-child-width-1-3@s rmcc-flex-center" rmcc-grid>
+            <li>
+              <div class="rmcc-inline-clip rmcc-transition-toggle rmcc-light" tabindex="0">
+                <div>
+                  <img src="public/images/resource-card.jpg" width="1800" height="1800" alt="">
+                  <div class="rmcc-position-cover rmcc-overlay rmcc-overlay-primary">
+                    <div class="rmcc-position-top-left rmcc-position-small">
+                      <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                      <p class="rmcc-text-lead">ServiceNow powers highly available, massive-scale cloud infrastructure with MariaDB</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="rmcc-transition-slide-left rmcc-position-cover">
+                  <img src="public/images/resource-building.jpg" width="1800" height="1800" alt="">
+                  <div class="rmcc-position-cover">
+                    <div class="rmcc-position-center rmcc-text-center rmcc-position-small">
+                      <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                      <p class="rmcc-text-lead">ServiceNow powers highly available, massive-scale cloud infrastructure with MariaDB</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="rmcc-inline-clip rmcc-transition-toggle rmcc-light" tabindex="0">
+                <div>
+                  <img src="public/images/resource-card.jpg" width="1800" height="1800" alt="">
+                  <div class="rmcc-position-cover rmcc-overlay rmcc-overlay-primary">
+                    <div class="rmcc-position-top-left rmcc-position-small">
+                      <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                      <p class="rmcc-text-lead">Creating a reference architecture for high availability at Nokia</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="rmcc-transition-fade rmcc-position-cover">
+                  <img src="public/images/resource-building.jpg" width="1800" height="1800" alt="">
+                  <div class="rmcc-position-cover">
+                    <div class="rmcc-position-center rmcc-text-center rmcc-position-small">
+                      <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                      <p class="rmcc-text-lead">Creating a reference architecture for high availability at Nokia</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="rmcc-inline-clip rmcc-transition-toggle rmcc-light" tabindex="0">
+                <div>
+                  <img src="public/images/resource-card.jpg" width="1800" height="1800" alt="">
+                  <div class="rmcc-position-cover rmcc-overlay rmcc-overlay-primary">
+                    <div class="rmcc-position-top-left rmcc-position-small">
+                      <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                      <p class="rmcc-text-lead">Development Bank of Singapore (DBS) migrates to MariaDB</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="rmcc-transition-slide-right rmcc-position-cover">
+                  <img src="public/images/resource-building.jpg" width="1800" height="1800" alt="">
+                  <div class="rmcc-position-cover">
+                    <div class="rmcc-position-center rmcc-text-center rmcc-position-small">
+                      <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                      <p class="rmcc-text-lead">Development Bank of Singapore (DBS) migrates to MariaDB</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+      </div>
+
+      <div id="PageTwo" hidden>
+
+        <!-- heading & paragraph -->
+        <section class="rmcc-section rmcc-container rmcc-container-small">
+
+          <h2 class="rmcc-text-primary rmcc-text-uppercase rmcc-text-center rmcc-h3">Solve the most complex database issues</h2>
+
+          <p class="rmcc-text-lead">
+            MariaDB Support Engineers have been solving all types of database issues since 2003. Because MariaDB 
+            Support Engineers have experience as DBAs and developers, 
+            our first-line support personnel are the experts in MariaDB as well as MySQL.
+          </p>
+
+          <p>
+            Our Support Engineers are tightly integrated with the MariaDB engineering team. 
+            That gives them direct access to additional resources they might need to quickly find solutions to your toughest problems. 
+            MariaDB engineering support includes proactive, consultative guidance on questions specific to your deployment, 
+            such as how to tune for performance, high availability, security audits, and code review.
+          </p>
+          
+          <p>
+            Our <a>Remote DBA</a> team collaborates with MariaDB Support, 
+            creating a diverse cadre of experts that provide proactive advice and reactive response to your issues during development, 
+            deployment and operation.
+          </p>
+          
+          <p>
+            MariaDB Support is available with a <a>MariaDB Subscription</a>. 
+            We provide multiple subscription options to fit your needs. 
+            You can choose from offerings ranging from developer support to unlimited 24x7x365 support for mission-critical production systems.
+          </p>
+          
+          <p>If you want to get in touch with our support engineers, please <a>contact us</a>.</p>
+
+        </section>
+
+        <!-- 3x grid with icons -->
+        <section class="rmcc-inline rmcc-margin">
+          <img src="https://test.com/projects/kilbeg/public/images/bluewater-bg.png" alt="">
+          <div class="rmcc-position-center rmcc-text-center rmcc-light">
+            <h2 class="rmcc-text-uppercase">Why Maria<em>DB</em>?</h2>
+            <div class="rmcc-container">
+              <ul class="rmcc-child-width-1-3@m" rmcc-grid>
+                <li class="rmcc-text-center">
+                  <span class="rmcc-text-emphasis" rmcc-icon="icon: database; ratio: 4"></span>
+                  <p class="rmcc-text-emphasis">Secure enterprise-class database with authentication, monitoring and encryption essential to a modern architecture and a wide array of applications.</p>
+                </li>
+                <li class="rmcc-text-center">
+                  <span class="rmcc-text-emphasis" rmcc-icon="icon: cloud-upload; ratio: 4"></span>
+                  <p class="rmcc-text-emphasis">Flexible deployment model supporting hybrid IT and easy deployment of MariaDB in the most popular cloud environments, including AWS and Microsoft Azure.</p>
+                </li>
+                <li class="rmcc-text-center">
+                  <span class="rmcc-text-emphasis" rmcc-icon="icon: server; ratio: 4"></span>
+                  <p class="rmcc-text-emphasis">Wildly popular open source enterprise-class database delivering the high availability and scalability global enterprises need.</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- cta -->
+        <section class="rmcc-section rmcc-container">
+          <h2 class="rmcc-text-uppercase rmcc-text-primary rmcc-text-center">Existing Customer? Need Support?</h2>
+          <div class="rmcc-margin-medium-top rmcc-flex rmcc-flex-center">
+            <a class="rmcc-button rmcc-button-default rmcc-button-gradient rmcc-button-large rmcc-border-rounded" href="#">Link</a>
+          </div>
+        </section>
+
+      </div>
+
+      <div id="HoverBlocks" class="rmcc-container rmcc-section-small">
+        <h1>Standard</h1>
+        <ul class="rmcc-grid-small rmcc-child-width-1-3@s rmcc-flex-center" rmcc-grid>
+          <li>
+            <div class="rmcc-inline-clip rmcc-transition-toggle rmcc-light" tabindex="0">
+              <div>
+                <img src="public/images/resource-card.jpg" width="1800" height="1800" alt="">
+                <div class="rmcc-position-cover rmcc-overlay rmcc-overlay-primary">
+                  <div class="rmcc-position-top-left rmcc-position-small">
+                    <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                    <p class="rmcc-text-lead">ServiceNow powers highly available, massive-scale cloud infrastructure with MariaDB</p>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-transition-slide-left rmcc-position-cover">
+                <img src="public/images/resource-building.jpg" width="1800" height="1800" alt="">
+                <div class="rmcc-position-cover">
+                  <div class="rmcc-position-center rmcc-text-center rmcc-position-small">
+                    <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                    <p class="rmcc-text-lead">ServiceNow powers highly available, massive-scale cloud infrastructure with MariaDB</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="rmcc-inline-clip rmcc-transition-toggle rmcc-light" tabindex="0">
+              <div>
+                <img src="public/images/resource-card.jpg" width="1800" height="1800" alt="">
+                <div class="rmcc-position-cover rmcc-overlay rmcc-overlay-primary">
+                  <div class="rmcc-position-top-left rmcc-position-small">
+                    <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                    <p class="rmcc-text-lead">Creating a reference architecture for high availability at Nokia</p>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-transition-fade rmcc-position-cover">
+                <img src="public/images/resource-building.jpg" width="1800" height="1800" alt="">
+                <div class="rmcc-position-cover">
+                  <div class="rmcc-position-center rmcc-text-center rmcc-position-small">
+                    <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                    <p class="rmcc-text-lead">Creating a reference architecture for high availability at Nokia</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="rmcc-inline-clip rmcc-transition-toggle rmcc-light" tabindex="0">
+              <div>
+                <img src="public/images/resource-card.jpg" width="1800" height="1800" alt="">
+                <div class="rmcc-position-cover rmcc-overlay rmcc-overlay-primary">
+                  <div class="rmcc-position-top-left rmcc-position-small">
+                    <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                    <p class="rmcc-text-lead">Development Bank of Singapore (DBS) migrates to MariaDB</p>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-transition-slide-right rmcc-position-cover">
+                <img src="public/images/resource-building.jpg" width="1800" height="1800" alt="">
+                <div class="rmcc-position-cover">
+                  <div class="rmcc-position-center rmcc-text-center rmcc-position-small">
+                    <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                    <p class="rmcc-text-lead">Development Bank of Singapore (DBS) migrates to MariaDB</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <h1>More</h1>
+        <ul class="rmcc-grid-small rmcc-child-width-1-3@s rmcc-flex-center" rmcc-grid>
+          <li>
+            <div class="rmcc-inline-clip rmcc-transition-toggle rmcc-light" tabindex="0">
+              <div>
+                <img src="public/images/resource-card.jpg" width="1800" height="1800" alt="">
+                <div class="rmcc-position-cover rmcc-overlay rmcc-overlay-primary">
+                  <div class="rmcc-position-top-left rmcc-position-small">
+                    <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                    <p class="rmcc-text-lead">ServiceNow powers highly available, massive-scale cloud infrastructure with MariaDB</p>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-transition-slide-left rmcc-position-cover">
+                <img src="public/images/resource-building.jpg" width="1800" height="1800" alt="">
+                <div class="rmcc-position-cover">
+                  <div class="rmcc-position-center rmcc-text-center rmcc-position-small">
+                    <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                    <p class="rmcc-text-lead">ServiceNow powers highly available, massive-scale cloud infrastructure with MariaDB</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="rmcc-inline-clip rmcc-transition-toggle rmcc-light" tabindex="0">
+              <div>
+                <img src="public/images/resource-card.jpg" width="1800" height="1800" alt="">
+                <div class="rmcc-position-cover rmcc-overlay rmcc-overlay-primary">
+                  <div class="rmcc-position-top-left rmcc-position-small">
+                    <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                    <p class="rmcc-text-lead">Creating a reference architecture for high availability at Nokia</p>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-transition-fade rmcc-position-cover">
+                <img src="public/images/resource-building.jpg" width="1800" height="1800" alt="">
+                <div class="rmcc-position-cover">
+                  <div class="rmcc-position-center rmcc-text-center rmcc-position-small">
+                    <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                    <p class="rmcc-text-lead">Creating a reference architecture for high availability at Nokia</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="rmcc-inline-clip rmcc-transition-toggle rmcc-light" tabindex="0">
+              <div>
+                <img src="public/images/resource-card.jpg" width="1800" height="1800" alt="">
+                <div class="rmcc-position-cover rmcc-overlay rmcc-overlay-primary">
+                  <div class="rmcc-position-top-left rmcc-position-small">
+                    <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                    <p class="rmcc-text-lead">Development Bank of Singapore (DBS) migrates to MariaDB</p>
+                  </div>
+                </div>
+              </div>
+              <div class="rmcc-transition-slide-right rmcc-position-cover">
+                <img src="public/images/resource-building.jpg" width="1800" height="1800" alt="">
+                <div class="rmcc-position-cover">
+                  <div class="rmcc-position-center rmcc-text-center rmcc-position-small">
+                    <h4 class="rmcc-margin-remove text-normal rmcc-text-uppercase">Customer Story</h4>
+                    <p class="rmcc-text-lead">Development Bank of Singapore (DBS) migrates to MariaDB</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+  
+    </main>
+
+    <div id="Footers" hidden>
+
+      <footer id="FooterBasic" hidden>
+
+        <div id="FooterUpper">
+          <div class="rmcc-background-secondary rmcc-height-medium"></div>
+        </div>
+  
+        <div id="FooterMiddle">
+          <div class="rmcc-padding-small rmcc-padding-remove-horizontal rmcc-position-relative rmcc-position-z-index bottom-shadow">
+            <div class="rmcc-container rmcc-text-right rmcc-text-small rmcc-text-emphasis text-shadow">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br>tempor incididunt ut labore et dolore magna aliqua.</div>
+          </div>
+        </div>
+  
+        <div id="FooterLower">
+          <div class="rmcc-background-primary rmcc-background-gradient rmcc-padding rmcc-position-relative"></div>
+        </div>
+  
+      </footer>
+
+      <footer id="FooterMaria" class="site-footer rmcc-background-secondary rmcc-light">
+
+        <div class="rmcc-container rmcc-section">
+
+          <div rmcc-grid>
+            <div class="rmcc-width-1-6">
+              <ul class="rmcc-nav rmcc-nav-default">
+                <li class="rmcc-nav-header rmcc-text-bold rmcc-h4 rmcc-margin-remove">Products</li>
+                <li><a href="#">Enterprise Server</a></li>
+                <li><a href="#">MaxScale</a></li>
+                <li><a href="#">ColumnStore</a></li>
+                <li><a href="#">Galera Cluster</a></li>
+                <li><a href="#">Community Server</a></li>
+                <li><a href="#">Pricing</a></li>
+              </ul>
+            </div>
+            <div class="rmcc-width-1-6">
+              <ul class="rmcc-nav rmcc-nav-default">
+                <li class="rmcc-nav-header rmcc-text-bold rmcc-h4 rmcc-margin-remove">Services</li>
+                <li><a href="#">Remote DBA</a></li>
+                <li><a href="#">Enterprise Architect</a></li>
+                <li><a href="#">Technical Support</a></li>
+                <li><a href="#">Migration Practice</a></li>
+                <li><a href="#">Consulting</a></li>
+                <li><a href="#">Training</a></li>
+              </ul>
+            </div>
+            <div class="rmcc-width-1-6">
+              <ul class="rmcc-nav rmcc-nav-default">
+                <li class="rmcc-nav-header rmcc-text-bold rmcc-h4 rmcc-margin-remove">Resources</li>
+                <li><a href="#">Download MariaDB</a></li>
+                <li><a href="#">Documentation</a></li>
+                <li><a href="#">Official MariaDB Blog</a></li>
+                <li><a href="#">Developers</a></li>
+                <li><a href="#">Customer Portal</a></li>
+                <li><a href="#">Customer Stories</a></li>
+                <li><a href="#">Events</a></li>
+              </ul>
+            </div>
+            <div class="rmcc-width-1-6">
+              <ul class="rmcc-nav rmcc-nav-default">
+                <li class="rmcc-nav-header rmcc-text-bold rmcc-h4 rmcc-margin-remove">About</li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Leadership</a></li>
+                <li><a href="#">Partners</a></li>
+                <li><a href="#">Newsroom</a></li>
+                <li><a href="#">Investors</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Trust Center</a></li>
+                <li><a href="#">Vulnerability Reporting</a></li>
+              </ul>
+            </div>
+            <div class="rmcc-width-1-4">
+              <form>
+
+                <fieldset class="rmcc-fieldset">
+                <legend class="rmcc-legend">Subscribe to our newsletter!</legend>
+            
+                  <div class="rmcc-margin-small">
+                    <input class="rmcc-input rmcc-border-rounded rounded-more" type="text" placeholder="Your Email Address" aria-label="Input">
+                  </div>
+              
+                  <div class="rmcc-margin-small">
+                    <select class="rmcc-select rmcc-border-rounded rounded-more" aria-label="Select">
+                      <option>-- Please Select Country --</option>
+                      <option>Ireland</option>
+                    </select>
+                  </div>
+            
+                  <div class="rmcc-margin rmcc-flex rmcc-flex-center">
+                    <a class="rmcc-button rmcc-button-default rmcc-button-gradient rmcc-border-rounded" href="#">Add me</a>
+                  </div>
+
+                </fieldset>
+              
+              </form>
+            </div>
+          </div>
+
+          <hr class="uk-margin-medium rmcc-margin-large-top">
+
+          <div class="rmcc-grid-collapse" rmcc-grid>
+            <div class="rmcc-width-medium rmcc-flex rmcc-flex-left">© 2024 MariaDB. All rights reserved.</div>
+            <div class="rmcc-width-expand rmcc-text-center rmcc-flex rmcc-flex-center">
+              <ul class="rmcc-subnav rmcc-subnav-divider">
+                <li><a href="#">Legal</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Cookie Policy</a></li>
+                <li><a href="#">Sitemap</a></li>
+              </ul>
+            </div>
+            <div class="rmcc-width-medium rmcc-flex rmcc-flex-right">
+              <ul class="rmcc-iconnav">
+                <li><a href="#" rmcc-icon="icon: facebook"></a></li>
+                <li><a href="#" rmcc-icon="icon: twitter"></a></li>
+                <li><a href="#" rmcc-icon="icon: linkedin"></a></li>
+            </ul>
+            </div>
+          </div>
+
+
+          <!-- © 2024 MariaDB. All rights reserved.
+
+          Legal | Privacy Policy | Cookie Policy | Sitemap -->
+          
+            
+
+
+        </div>
+
+      </footer>
+
+    </div>
+
+    <div class="rmcc-empty"></div>
+
+  </body>
+
+</html>
