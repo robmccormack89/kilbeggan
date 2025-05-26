@@ -5,4 +5,5 @@ composer.lock
 node_modules/
 .sass-cache/
 compilation_cache/
+_bin/
 _dev/
