@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-gb" dir="ltr">
 
   <head>
 
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Hello</title>
     <link rel="shortcut icon" href="public/images/favicon.png" />
 
     <link href="public/css/rmcc.min.css" rel="stylesheet">
+    <!-- <script src="public/js/rmcc.min.js"></script> -->
     <script src="public/js/rmcc.min.js"></script>
+    <script src="public/js/rmcc-icons.min.js"></script>
 
     <!--FEED: css -->
     <link href="public/feed/css/mjf.min.css" rel="stylesheet">
@@ -60,7 +63,9 @@
     <script>
       (async function () {
         var jobsJson = await fetchJobsJson('https://feed.midlandjobs.ie/demo/');
-        const MyJobsObject = new JobBoardFilteredFeed(42, jobsJson);
+        var jobsQ = JsonQuery(jobsJson); //Initialize the Query Engine
+        var kilbegganJobs = jobsQ.where({'company': 'Kilbeggan Community Group'}).exec();
+        const MyJobsObject = new JobBoardFilteredFeed(42, kilbegganJobs);
         MyJobsObject.renderTheJobs('#MyJobs');
       })();
     </script>

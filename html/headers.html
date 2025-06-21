@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-gb" dir="ltr">
 
   <head>
 
     <!-- site/metas -->
     <title>Kilbeg</title>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="../public/images/favicon.png" />
 
     <!-- google fonts -->
@@ -17,13 +18,14 @@
     <link href="../public/css/rmcc.min.css" rel="stylesheet">
     <link href="../public/css/kcg.css" rel="stylesheet">
     <script src="../public/js/rmcc.min.js"></script>
+    <script src="../public/js/rmcc-icons.min.js"></script>
 
   </head>
 
   <body>
 
-    <h1>Wide header</h1>
-    <header class="site-header">
+    <!-- wide header -->
+    <header class="site-header" hidden>
       <div class="rmcc-position-relative rmcc-position-z-index rmcc-light">
         <div class="rmcc-position-top rmcc-margin-top">
           <nav class="rmcc-navbar-container rmcc-navbar-transparent">
@@ -42,7 +44,7 @@
                     </div>
                   </a>
                 </div>
-                <div class="rmcc-navbar-center">
+                <div class="rmcc-navbar-center rmcc-visible@xl">
                   <ul class="rmcc-navbar-nav rmcc-navbar-nav-primary">
                     <li><a href="#">Employment</a></li>
                     <li class="rmcc-active">
@@ -73,8 +75,7 @@
                   </ul>
                 </div>
                 <div class="rmcc-navbar-right">
-                  <a class="rmcc-navbar-toggle rmcc-navbar-toggle-animate rmcc-icon rmcc-navbar-toggle-icon" href="" rmcc-navbar-toggle-icon="" role="button" aria-haspopup="true" aria-label="Open menu"></a>
-                  <div class="rmcc-navbar-dropdown rmcc-drop" rmcc-drop="mode: click; cls-drop: rmcc-navbar-dropdown; boundary: !.rmcc-navbar; flip: false">Dropdown</div>
+                  <a class="rmcc-navbar-toggle rmcc-navbar-toggle-animate rmcc-icon rmcc-navbar-toggle-icon rmcc-first-column" href="#offcanvas-nav" rmcc-toggle="" role="button" rmcc-navbar-toggle-icon="" aria-label="Open menu">Menu </a>
                 </div>
               </div>
             </div>
@@ -82,92 +83,24 @@
         </div>
       </div>
     </header>
-    <div class="hero-bg">
-      <div class="hero-bg-effect">
 
-        <!-- header top -->
-        <div class="rmcc-cover-container rmcc-position-relative rmcc-visible-toggle rmcc-height-large">
-
-          <!-- bg image -->
-          <img class="gray" src="../public/images/harbour.jpg" alt="" rmcc-cover>
-
-          <!-- overlay -->
-          <div class="rmcc-overlay-primary rmcc-position-cover"></div>
-
-          <!-- header content -->
-          <div class="rmcc-light rmcc-position-absolute rmcc-position-bottom rmcc-height-1-1 rmcc-width-1-1 rmcc-flex rmcc-flex-center rmcc-flex-bottom rmcc-padding-large">
-            <div class="rmcc-container rmcc-text-center rmcc-light">
-              <h5 class="rmcc-text-uppercase rmcc-heading-large">Lorem ipsum dolor amet</h5>
-              <h1 class="rmcc-heading-large rmcc-text-uppercase rmcc-margin-remove-top">Consectetur Adipiscing Elit</h1>
-              <p class="rmcc-text-large">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-              <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-text-emphasis rmcc-button-large rmcc-border-rounded rmcc-text-capitalize slight-bold rmcc-margin-top">
-                <span class="uuurmcc-position-relative">View our Latest Jobs</span> <span rmcc-icon="icon: forward; ratio: 1.6"></span>
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- header bottom -->
-        <div class="rmcc-position-relative rmcc-visible-toggle rmcc-light" tabindex="0" rmcc-slider>
-          <div class="rmcc-slider-items rmcc-child-width-1-2@m rmcc-grid-collapse rmcc-grid-divider rmcc-light rmcc-height-1-1 rmcc-margin-remove" rmcc-grid rmcc-height-viewport="offset-bottom: 74">
-            <div class="rmcc-padding-remove-horizontal">
-              <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-padding">
-                <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-inline">
-                  <div class="rmcc-position-top-left">
-                    <div class="rmcc-width-3-4">
-                      <span class="rmcc-text-bold rmcc-text-emphasis">About Us</span>
-                      <h2 class="rmcc-text-normal rmcc-margin-remove-top">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do.</h2>
-                    </div>
-                  </div>
-                  <div class="rmcc-position-bottom-right">
-                    <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-border-rounded" href="#">Learn more</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="rmcc-padding-remove-horizontal">
-              <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-padding">
-                <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-inline">
-                  <div class="rmcc-position-top-left">
-                    <div class="rmcc-width-3-4">
-                      <span class="rmcc-text-bold rmcc-text-emphasis">Our Sponsors</span>
-                      <h2 class="rmcc-text-normal rmcc-margin-remove-top">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium.</h2>
-                    </div>
-                  </div>
-                  <div class="rmcc-position-bottom-right">
-                    <a class="rmcc-button rmcc-button-secondary rmcc-border-rounded" href="#">Learn more</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <h1>Contained header</h1>
+    <!-- contained header -->
     <header class="page-header">
       <div class="rmcc-position-relative rmcc-position-z-index rmcc-light">
         <div class="rmcc-position-top rmcc-margin-top">
           <nav class="rmcc-navbar-container rmcc-navbar-transparent">
             <div class="rmcc-container rmcc-container-medium-large">
-              <div rmcc-grid>
+              <div class="rmcc-visible@xl" rmcc-grid>
                 <div class="rmcc-width-expand"></div>
                 <div class="rmcc-width-auto">
                   <div>
-                    <!-- <ul class="rmcc-iconnav">
+                    <ul class="rmcc-subnav capitalize rmcc-margin-remove">
                       <li><a href="#">Knowledge Base</a></li>
                       <li><a href="#">Contact</a></li>
                       <li><a href="#">Login</a></li>
-                      <li><a href="#" rmcc-icon="icon: search"></a></li>
-                    </ul> -->
-                    <ul class="rmcc-subnav rmcc-margin-remove">
-                      <li><a href="#">Knowledge Base</a></li>
-                      <li><a href="#">Contact</a></li>
-                      <li><a href="#">Login</a></li>
-                      <li><a href="#" rmcc-icon="icon: search"></a></li>
+                      <li>
+                        <a class="rmcc-icon rmcc-search-icon" href="#modal-full" rmcc-search-icon="" rmcc-toggle="" aria-label="Open Search" role="button"></a>
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -208,7 +141,7 @@
                   </a>
                 </div>
                 <div class="rmcc-navbar-right">
-                  <ul class="rmcc-navbar-nav rmcc-navbar-nav-primary">
+                  <ul class="rmcc-navbar-nav rmcc-navbar-nav-primary rmcc-visible@xl">
                     <li><a href="#">Employment</a></li>
                     <li class="rmcc-active">
                       <a href="#" role="button" aria-haspopup="true">Training</a>
@@ -236,14 +169,11 @@
                     </li>
                     <li><a href="#">Contact</a></li>
                   </ul>
-                  <div class="rmcc-navbar-item">
+                  <div class="rmcc-navbar-item rmcc-visible@xl">
                     <!-- <div>Some <a href="#">Link</a></div> -->
                     <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-button-small rmcc-border-rounded" href="#">Download</a>
                   </div>
-                </div>
-                <div class="rmcc-navbar-right" hidden>
-                  <a class="rmcc-navbar-toggle rmcc-navbar-toggle-animate rmcc-icon rmcc-navbar-toggle-icon" href="" rmcc-navbar-toggle-icon="" role="button" aria-haspopup="true" aria-label="Open menu"></a>
-                  <div class="rmcc-navbar-dropdown rmcc-drop" rmcc-drop="mode: click; cls-drop: rmcc-navbar-dropdown; boundary: !.rmcc-navbar; flip: false">Dropdown</div>
+                  <a class="rmcc-navbar-toggle rmcc-navbar-toggle-animate rmcc-icon rmcc-navbar-toggle-icon rmcc-hidden@xl" href="#offcanvas-nav" rmcc-toggle="" role="button" rmcc-navbar-toggle-icon="" aria-label="Open menu">Menu </a>
                 </div>
               </div>
             </div>
@@ -251,27 +181,42 @@
         </div>
       </div>
     </header>
-    <div class="hero-bg">
-      <div class="hero-bg-effect">
+
+    <!-- underlying hero -->
+    <div class="hero-bg hero-gradient-bg">
+      <div class="dots">
 
         <!-- header top -->
-        <div class="rmcc-cover-container rmcc-position-relative rmcc-visible-toggle rmcc-height-large">
+        <div class="rmcc-cover-container shadow rmcc-position-relative rmcc-visible-toggle rmcc-height-large smaller">
 
-          <!-- bg image -->
-          <img class="gray" src="../public/images/harbour.jpg" alt="" rmcc-cover>
+          <!-- bg image/slider -->
+          <img class="gggray" src="../public/images/harbour.jpg" alt="" rmcc-cover hidden>
+          <div class="hero-slideshow rmcc-position-relative rmcc-light" tabindex="0" rmcc-slideshow="finite: true; autoplay: false; autoplay-interval: 3000; animation: slide">
+            <div class="rmcc-slideshow-items rmcc-height-large smaller">
+              <img src="../public/images/harbour.jpg" class="" alt="" loading="lazy" rmcc-cover>
+              <img src="../public/images/pitch.jpg" class="" alt="" loading="lazy" rmcc-cover>
+              <img src="../public/images/ballymore.jpg" class="" alt="" loading="lazy" rmcc-cover>
+            </div>
+            <a class="rmcc-position-center-left rmcc-position-center-left-out rmcc-position-small rmcc-hidden-hover rmcc-position-z-index" href rmcc-slidenav-previous rmcc-slideshow-item="previous"></a>
+            <a class="rmcc-position-center-right rmcc-position-center-right-out rmcc-position-small rmcc-hidden-hover rmcc-position-z-index" href rmcc-slidenav-next rmcc-slideshow-item="next"></a>
+          </div>
 
           <!-- overlay -->
           <div class="rmcc-overlay-primary rmcc-position-cover"></div>
 
           <!-- header content -->
-          <div class="rmcc-light rmcc-position-absolute rmcc-position-bottom rmcc-height-1-1 rmcc-width-1-1 rmcc-flex rmcc-flex-center rmcc-flex-bottom rmcc-padding-large">
-            <div class="rmcc-container rmcc-text-center rmcc-light">
-              <h5 class="rmcc-text-uppercase rmcc-heading-large">Lorem ipsum dolor amet</h5>
-              <h1 class="rmcc-heading-large rmcc-text-uppercase rmcc-margin-remove-top">Consectetur Adipiscing Elit</h1>
-              <p class="rmcc-text-large">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-              <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-text-emphasis rmcc-button-large rmcc-border-rounded rmcc-text-capitalize slight-bold rmcc-margin-top">
-                <span class="uuurmcc-position-relative">View our Latest Jobs</span> <span rmcc-icon="icon: forward; ratio: 1.6"></span>
-              </button>
+          <div class="rmcc-height-1-1 rmcc-width-1-1">
+            <div class="rmcc-position-absolute rmcc-position-center rmcc-text-center rmcc-light rrrmcc-margin-large-bottom">
+              <div class="rmcc-container rmcc-container-large">
+                <h5 class="rmcc-text-uppercase rmcc-heading-large">Lorem ipsum dolor amet</h5>
+                <h1 class="rmcc-heading-large rmcc-text-uppercase rmcc-margin-remove-top">Consectetur Adipiscing Elit</h1>
+              </div>
+              <div class="rmcc-container rmcc-container-small rmcc-margin-small-top">
+                <p class="rmcc-text-large">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                <button class="rmcc-button rmcc-button-danger rmcc-button-gradient rmcc-text-emphasis rmcc-button-large rmcc-border-rounded rmcc-text-capitalize slight-bold rmcc-margin-top">
+                  <span class="uuurmcc-position-relative">View Jobs</span><!-- <span rmcc-icon="icon: forward; ratio: 1.6"></span> -->
+                </button>
+              </div>
             </div>
           </div>
 
@@ -282,14 +227,12 @@
           <div class="rmcc-slider-items rmcc-child-width-1-2@m rmcc-grid-collapse rmcc-grid-divider rmcc-light rmcc-height-1-1 rmcc-margin-remove" rmcc-grid rmcc-height-viewport="offset-bottom: 74">
             <div class="rmcc-padding-remove-horizontal">
               <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-padding">
-                <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-inline">
-                  <div class="rmcc-position-top-left">
-                    <div class="rmcc-width-3-4">
-                      <span class="rmcc-text-bold rmcc-text-emphasis">About Us</span>
-                      <h2 class="rmcc-text-normal rmcc-margin-remove-top">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do.</h2>
-                    </div>
+                <div class="rmcc-flex rmcc-flex-bottom" rmcc-grid>
+                  <div class="rmcc-width-1-1 rmcc-width-3-4@xl">
+                    <span class="rmcc-text-bold rmcc-text-emphasis">About Us</span>
+                    <h2 class="rmcc-text-normal rmcc-margin-remove-top">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do.</h2>
                   </div>
-                  <div class="rmcc-position-bottom-right">
+                  <div class="rmcc-width-1-1 rmcc-width-expand@xl rmcc-flex rmcc-flex-left rmcc-flex-right@xl">
                     <a class="rmcc-button rmcc-button-default rmcc-button-fat rmcc-border-rounded" href="#">Learn more</a>
                   </div>
                 </div>
@@ -297,14 +240,12 @@
             </div>
             <div class="rmcc-padding-remove-horizontal">
               <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-padding">
-                <div class="rmcc-width-1-1 rmcc-height-1-1 rmcc-inline">
-                  <div class="rmcc-position-top-left">
-                    <div class="rmcc-width-3-4">
-                      <span class="rmcc-text-bold rmcc-text-emphasis">Our Sponsors</span>
-                      <h2 class="rmcc-text-normal rmcc-margin-remove-top">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium.</h2>
-                    </div>
+                <div class="rmcc-flex rmcc-flex-bottom" rmcc-grid>
+                  <div class="rmcc-width-1-1 rmcc-width-3-4@xl">
+                    <span class="rmcc-text-bold rmcc-text-emphasis">Our Sponsors</span>
+                    <h2 class="rmcc-text-normal rmcc-margin-remove-top">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do.</h2>
                   </div>
-                  <div class="rmcc-position-bottom-right">
+                  <div class="rmcc-width-1-1 rmcc-width-expand@xl rmcc-flex rmcc-flex-left rmcc-flex-right@xl">
                     <a class="rmcc-button rmcc-button-secondary rmcc-border-rounded" href="#">Learn more</a>
                   </div>
                 </div>
@@ -313,6 +254,37 @@
           </div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- mobile offcanvas -->
+    <div id="offcanvas-nav" rmcc-offcanvas="overlay: true">
+      <div class="rmcc-offcanvas-bar">
+        <ul class="rmcc-nav rmcc-nav-default">
+          <li class="rmcc-active"><a href="#">Active</a></li>
+          <li class="rmcc-parent">
+            <a href="#">Parent</a>
+            <ul class="rmcc-nav-sub">
+              <li><a href="#">Sub item</a></li>
+              <li><a href="#">Sub item</a></li>
+            </ul>
+          </li>
+          <li class="rmcc-nav-header">Header</li>
+          <li><a href="#"><span class="rmcc-margin-xsmall-right" rmcc-icon="icon: table"></span> Item</a></li>
+          <li><a href="#"><span class="rmcc-margin-xsmall-right" rmcc-icon="icon: thumbnails"></span> Item</a></li>
+          <li class="rmcc-nav-divider"></li>
+          <li><a href="#"><span class="rmcc-margin-xsmall-right" rmcc-icon="icon: trash"></span> Item</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- search popup -->
+    <div id="modal-full" class="rmcc-modal-full rmcc-modal" rmcc-modal="" tabindex="-1" style="">
+      <div class="rmcc-modal-dialog rmcc-flex rmcc-flex-center rmcc-flex-middle" rmcc-height-viewport="" role="dialog" aria-modal="true" style="min-height: calc(929px);">
+        <button class="rmcc-modal-close-full rmcc-icon rmcc-close" type="button" rmcc-close="" aria-label="Close"></button>
+        <form class="rmcc-search rmcc-search-large">
+          <input class="rmcc-search-input rmcc-text-center" type="search" placeholder="Start typing..." aria-label="Search" autofocus="">
+        </form>
       </div>
     </div>
 

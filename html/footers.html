@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-gb" dir="ltr">
 
   <head>
 
     <!-- site/metas -->
     <title>Kilbeg</title>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="../public/images/favicon.png" />
 
     <!-- google fonts -->
@@ -17,12 +18,13 @@
     <link href="../public/css/rmcc.min.css" rel="stylesheet">
     <link href="../public/css/kcg.css" rel="stylesheet">
     <script src="../public/js/rmcc.min.js"></script>
+    <script src="../public/js/rmcc-icons.min.js"></script>
 
   </head>
 
   <body>
 
-    <h1>Footer Basic</h1>
+    <!-- <h1>Footer Basic</h1>
     <footer>
 
       <div id="FooterUpper">
@@ -39,15 +41,17 @@
         <div class="rmcc-background-primary rmcc-background-gradient rmcc-padding rmcc-position-relative"></div>
       </div>
 
-    </footer>
+    </footer> -->
 
-    <h1>Footer Maria</h1>
-    <footer class="site-footer rmcc-background-secondary rmcc-light">
-
+    <!-- footer light bg -->
+    <footer class="site-footer rmcc-background-default">
       <div class="rmcc-container rmcc-section">
 
+        <!-- footer top -->
         <div rmcc-grid>
-          <div class="rmcc-width-1-6">
+
+          <!-- footer top one -->
+          <div class="rmcc-width-1-2 rmcc-width-1-6@s">
             <ul class="rmcc-nav rmcc-nav-default">
               <li class="rmcc-nav-header rmcc-text-bold rmcc-h4 rmcc-margin-remove">Products</li>
               <li><a href="#">Enterprise Server</a></li>
@@ -58,7 +62,9 @@
               <li><a href="#">Pricing</a></li>
             </ul>
           </div>
-          <div class="rmcc-width-1-6">
+
+          <!-- footer top two -->
+          <div class="rmcc-width-1-2 rmcc-width-1-6@s">
             <ul class="rmcc-nav rmcc-nav-default">
               <li class="rmcc-nav-header rmcc-text-bold rmcc-h4 rmcc-margin-remove">Services</li>
               <li><a href="#">Remote DBA</a></li>
@@ -69,7 +75,9 @@
               <li><a href="#">Training</a></li>
             </ul>
           </div>
-          <div class="rmcc-width-1-6">
+
+          <!-- footer top three -->
+          <div class="rmcc-width-1-2 rmcc-width-1-6@s">
             <ul class="rmcc-nav rmcc-nav-default">
               <li class="rmcc-nav-header rmcc-text-bold rmcc-h4 rmcc-margin-remove">Resources</li>
               <li><a href="#">Download MariaDB</a></li>
@@ -81,7 +89,9 @@
               <li><a href="#">Events</a></li>
             </ul>
           </div>
-          <div class="rmcc-width-1-6">
+
+          <!-- footer top four -->
+          <div class="rmcc-width-1-2 rmcc-width-1-6@s">
             <ul class="rmcc-nav rmcc-nav-default">
               <li class="rmcc-nav-header rmcc-text-bold rmcc-h4 rmcc-margin-remove">About</li>
               <li><a href="#">Contact</a></li>
@@ -94,11 +104,13 @@
               <li><a href="#">Vulnerability Reporting</a></li>
             </ul>
           </div>
-          <div class="rmcc-width-1-4">
-            <form>
 
+          <!-- footer top five -->
+          <div class="rmcc-width-1-1 rmcc-width-expand@s">
+            <form>
               <fieldset class="rmcc-fieldset">
-              <legend class="rmcc-legend">Subscribe to our newsletter!</legend>
+
+                <legend class="rmcc-legend">Subscribe to our newsletter!</legend>
           
                 <div class="rmcc-margin-small">
                   <input class="rmcc-input rmcc-border-rounded rounded-more" type="text" placeholder="Your Email Address" aria-label="Input">
@@ -116,16 +128,18 @@
                 </div>
 
               </fieldset>
-            
             </form>
           </div>
+
         </div>
 
+        <!-- footer divider -->
         <hr class="uk-margin-medium rmcc-margin-large-top">
 
-        <div class="rmcc-grid-collapse" rmcc-grid>
-          <div class="rmcc-width-medium rmcc-flex rmcc-flex-left">© 2024 MariaDB. All rights reserved.</div>
-          <div class="rmcc-width-expand rmcc-text-center rmcc-flex rmcc-flex-center">
+        <!-- footer bottom -->
+        <div class="bottom-footer rmcc-grid-collapse" rmcc-grid>
+          <div class="rmcc-width-medium@m rmcc-flex rmcc-flex-center rmcc-flex-left@m">© 2024 MariaDB. All rights reserved.</div>
+          <div class="rmcc-width-1-1 rmcc-width-expand@m rmcc-flex rmcc-flex-center rmcc-text-center">
             <ul class="rmcc-subnav rmcc-subnav-divider">
               <li><a href="#">Legal</a></li>
               <li><a href="#">Privacy Policy</a></li>
@@ -133,25 +147,134 @@
               <li><a href="#">Sitemap</a></li>
             </ul>
           </div>
-          <div class="rmcc-width-medium rmcc-flex rmcc-flex-right">
+          <div class="rmcc-width-1-1 rmcc-width-small@m rmcc-width-medium@l rmcc-flex rmcc-flex-center rmcc-flex-right@m">
             <ul class="rmcc-iconnav">
               <li><a href="#" rmcc-icon="icon: facebook"></a></li>
               <li><a href="#" rmcc-icon="icon: twitter"></a></li>
               <li><a href="#" rmcc-icon="icon: linkedin"></a></li>
-          </ul>
+            </ul>
           </div>
         </div>
-
-
-        <!-- © 2024 MariaDB. All rights reserved.
-
-        Legal | Privacy Policy | Cookie Policy | Sitemap -->
         
-          
-
-
       </div>
+    </footer>
 
+    <div class="gradient-bar"></div>
+
+    <!-- footer dark bg -->
+    <footer class="site-footer rmcc-background-secondary rmcc-light">
+      <div class="rmcc-container rmcc-section">
+
+        <!-- footer top -->
+        <div rmcc-grid>
+
+          <!-- footer top one -->
+          <div class="rmcc-width-1-2 rmcc-width-1-6@s">
+            <ul class="rmcc-nav rmcc-nav-default">
+              <li class="rmcc-nav-header rmcc-text-bold rmcc-h4 rmcc-margin-remove">Products</li>
+              <li><a href="#">Enterprise Server</a></li>
+              <li><a href="#">MaxScale</a></li>
+              <li><a href="#">ColumnStore</a></li>
+              <li><a href="#">Galera Cluster</a></li>
+              <li><a href="#">Community Server</a></li>
+              <li><a href="#">Pricing</a></li>
+            </ul>
+          </div>
+
+          <!-- footer top two -->
+          <div class="rmcc-width-1-2 rmcc-width-1-6@s">
+            <ul class="rmcc-nav rmcc-nav-default">
+              <li class="rmcc-nav-header rmcc-text-bold rmcc-h4 rmcc-margin-remove">Services</li>
+              <li><a href="#">Remote DBA</a></li>
+              <li><a href="#">Enterprise Architect</a></li>
+              <li><a href="#">Technical Support</a></li>
+              <li><a href="#">Migration Practice</a></li>
+              <li><a href="#">Consulting</a></li>
+              <li><a href="#">Training</a></li>
+            </ul>
+          </div>
+
+          <!-- footer top three -->
+          <div class="rmcc-width-1-2 rmcc-width-1-6@s">
+            <ul class="rmcc-nav rmcc-nav-default">
+              <li class="rmcc-nav-header rmcc-text-bold rmcc-h4 rmcc-margin-remove">Resources</li>
+              <li><a href="#">Download MariaDB</a></li>
+              <li><a href="#">Documentation</a></li>
+              <li><a href="#">Official MariaDB Blog</a></li>
+              <li><a href="#">Developers</a></li>
+              <li><a href="#">Customer Portal</a></li>
+              <li><a href="#">Customer Stories</a></li>
+              <li><a href="#">Events</a></li>
+            </ul>
+          </div>
+
+          <!-- footer top four -->
+          <div class="rmcc-width-1-2 rmcc-width-1-6@s">
+            <ul class="rmcc-nav rmcc-nav-default">
+              <li class="rmcc-nav-header rmcc-text-bold rmcc-h4 rmcc-margin-remove">About</li>
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">Leadership</a></li>
+              <li><a href="#">Partners</a></li>
+              <li><a href="#">Newsroom</a></li>
+              <li><a href="#">Investors</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Trust Center</a></li>
+              <li><a href="#">Vulnerability Reporting</a></li>
+            </ul>
+          </div>
+
+          <!-- footer top five -->
+          <div class="rmcc-width-1-1 rmcc-width-expand@s">
+            <form>
+              <fieldset class="rmcc-fieldset">
+
+                <legend class="rmcc-legend">Subscribe to our newsletter!</legend>
+          
+                <div class="rmcc-margin-small">
+                  <input class="rmcc-input rmcc-border-rounded rounded-more" type="text" placeholder="Your Email Address" aria-label="Input">
+                </div>
+            
+                <div class="rmcc-margin-small">
+                  <select class="rmcc-select rmcc-border-rounded rounded-more" aria-label="Select">
+                    <option>-- Please Select Country --</option>
+                    <option>Ireland</option>
+                  </select>
+                </div>
+          
+                <div class="rmcc-margin rmcc-flex rmcc-flex-center">
+                  <a class="rmcc-button rmcc-button-default rmcc-button-gradient rmcc-border-rounded" href="#">Add me</a>
+                </div>
+
+              </fieldset>
+            </form>
+          </div>
+
+        </div>
+
+        <!-- footer divider -->
+        <hr class="uk-margin-medium rmcc-margin-large-top">
+
+        <!-- footer bottom -->
+        <div class="bottom-footer rmcc-grid-collapse" rmcc-grid>
+          <div class="rmcc-width-medium@m rmcc-flex rmcc-flex-center rmcc-flex-left@m">© 2024 MariaDB. All rights reserved.</div>
+          <div class="rmcc-width-1-1 rmcc-width-expand@m rmcc-flex rmcc-flex-center rmcc-text-center">
+            <ul class="rmcc-subnav rmcc-subnav-divider">
+              <li><a href="#">Legal</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Cookie Policy</a></li>
+              <li><a href="#">Sitemap</a></li>
+            </ul>
+          </div>
+          <div class="rmcc-width-1-1 rmcc-width-small@m rmcc-width-medium@l rmcc-flex rmcc-flex-center rmcc-flex-right@m">
+            <ul class="rmcc-iconnav">
+              <li><a href="#" rmcc-icon="icon: facebook"></a></li>
+              <li><a href="#" rmcc-icon="icon: twitter"></a></li>
+              <li><a href="#" rmcc-icon="icon: linkedin"></a></li>
+            </ul>
+          </div>
+        </div>
+        
+      </div>
     </footer>
 
   </body>

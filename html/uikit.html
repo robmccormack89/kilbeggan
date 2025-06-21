@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-gb" dir="ltr">
+
+  <head>
+
+    <!-- site/metas -->
+    <title>Kilbeg</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../public/images/favicon.png" />
+
+    <link href="../public/css/rmcc.min.css" rel="stylesheet">
+    <!-- <link href="../public/css/kcg.css" rel="stylesheet"> -->
+    <!-- <script src="../public/js/rmcc.min.js"></script> -->
+
+    <!-- UIkit CSS -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.23.10/dist/css/uikit.min.css" /> -->
+
+    <!-- UIkit JS -->
+    <script src="../public/js/rmcc.min.js"></script>
+    <script src="../public/js/rmcc-icons.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <a class="rmcc-navbar-toggle rmcc-navbar-toggle-animate rmcc-icon rmcc-navbar-toggle-icon" rmcc-navbar-toggle-icon="" href="#offcanvas-slide" rmcc-toggle="" role="button">Slide</a>
+
+    <div id="offcanvas-slide" rmcc-offcanvas="flip: true" class="rmcc-offcanvas" tabindex="-1" style="">
+      <div class="rmcc-offcanvas-bar rmcc-flex rmcc-flex-column rmcc-text-center" role="dialog" style="">
+        <button class="rmcc-offcanvas-close rmcc-close-large rmcc-icon rmcc-close" type="button" rmcc-close="" rmcc-toggle="cls: rmcc-close-large; mode: media; media: @s" aria-label="Close"></button>
+        <ul class="rmcc-nav rmcc-nav-primary rmcc-nav-center rmcc-margin-auto-vertical" rmcc-nav="">
+          <li class="rmcc-active"><a href="#">Active</a></li>
+          <li class="rmcc-parent">
+            <a href="" id="rmcc-nav-1" role="button" aria-controls="rmcc-nav-2" aria-expanded="false" aria-disabled="false">Parent <span rmcc-nav-parent-icon="" class="rmcc-icon rmcc-nav-parent-icon"></span></a>
+            <ul class="rmcc-nav-sub" hidden="" id="rmcc-nav-2" role="region" aria-labelledby="rmcc-nav-1">
+              <li role="presentation"><a href="#">Sub item</a></li>
+              <li role="presentation"><a href="#">Sub item</a></li>
+              <li role="presentation"><a href="#">Sub item</a></li>
+              <li role="presentation"><a href="#">Sub item</a></li>
+              <li role="presentation"><a href="#">Sub item</a></li>
+              <li role="presentation"><a href="#">Sub item</a>
+                <ul>
+                  <li><a href="#">Sub item</a></li>
+                  <li><a href="#">Sub item</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li><a href="#js-options">Item</a></li>
+          <li><a href="#">Item</a></li>
+        </ul>
+        <div>
+          <div class="rmcc-grid-small rmcc-child-width-auto rmcc-flex-inline rmcc-grid" rmcc-grid="">
+            <div class="rmcc-first-column">
+              <a class="rmcc-icon-button rmcc-icon" href="#" rmcc-icon="icon: facebook"></a>
+            </div>
+            <div>
+              <a class="rmcc-icon-button rmcc-icon" href="#" rmcc-icon="icon: instagram"></a>
+            </div>
+            <div>
+              <a class="rmcc-icon-button rmcc-icon" href="#" rmcc-icon="icon: mail"></a>
+            </div>
+            <div>
+              <a class="rmcc-icon-button rmcc-icon" href="#" rmcc-icon="icon: receiver"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+
+</html>
