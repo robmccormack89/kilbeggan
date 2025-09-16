@@ -11053,13 +11053,6 @@ iframe[data-rmcc-cover] {
  * `rmcc-light` is for light colors on dark backgrounds
  * `rmcc-dark` is or dark colors on light backgrounds
  */
-.rmcc-light, .rmcc-section-primary:not(.rmcc-preserve-color), .rmcc-section-secondary:not(.rmcc-preserve-color), .rmcc-tile-primary:not(.rmcc-preserve-color), .rmcc-tile-secondary:not(.rmcc-preserve-color), .rmcc-card-primary.rmcc-card-body, .rmcc-card-primary > :not([class*=rmcc-card-media]), .rmcc-card-secondary.rmcc-card-body, .rmcc-card-secondary > :not([class*=rmcc-card-media]), .rmcc-overlay-primary, .rmcc-offcanvas-bar {
-  color: rgba(255, 255, 255, 0.7);
-  /* Webkit */
-  /* Firefox */
-  /* Webkit */
-  /* Firefox */
-}
 .rmcc-light .rmcc-accordion-title::before, .rmcc-section-primary:not(.rmcc-preserve-color) .rmcc-accordion-title::before, .rmcc-section-secondary:not(.rmcc-preserve-color) .rmcc-accordion-title::before, .rmcc-tile-primary:not(.rmcc-preserve-color) .rmcc-accordion-title::before, .rmcc-tile-secondary:not(.rmcc-preserve-color) .rmcc-accordion-title::before, .rmcc-card-primary.rmcc-card-body .rmcc-accordion-title::before, .rmcc-card-primary > :not([class*=rmcc-card-media]) .rmcc-accordion-title::before, .rmcc-card-secondary.rmcc-card-body .rmcc-accordion-title::before, .rmcc-card-secondary > :not([class*=rmcc-card-media]) .rmcc-accordion-title::before, .rmcc-overlay-primary .rmcc-accordion-title::before, .rmcc-offcanvas-bar .rmcc-accordion-title::before {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2213%22%20height%3D%2213%22%20viewBox%3D%220%200%2013%2013%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Crect%20fill%3D%22rgba(255, 255, 255, 0.7)%22%20width%3D%2213%22%20height%3D%221%22%20x%3D%220%22%20y%3D%226%22%20%2F%3E%0A%20%20%20%20%3Crect%20fill%3D%22rgba(255, 255, 255, 0.7)%22%20width%3D%221%22%20height%3D%2213%22%20x%3D%226%22%20y%3D%220%22%20%2F%3E%0A%3C%2Fsvg%3E");
 }
@@ -11072,6 +11065,9 @@ iframe[data-rmcc-cover] {
 .rmcc-light .rmcc-badge, .rmcc-section-primary:not(.rmcc-preserve-color) .rmcc-badge, .rmcc-section-secondary:not(.rmcc-preserve-color) .rmcc-badge, .rmcc-tile-primary:not(.rmcc-preserve-color) .rmcc-badge, .rmcc-tile-secondary:not(.rmcc-preserve-color) .rmcc-badge, .rmcc-card-primary.rmcc-card-body .rmcc-badge, .rmcc-card-primary > :not([class*=rmcc-card-media]) .rmcc-badge, .rmcc-card-secondary.rmcc-card-body .rmcc-badge, .rmcc-card-secondary > :not([class*=rmcc-card-media]) .rmcc-badge, .rmcc-overlay-primary .rmcc-badge, .rmcc-offcanvas-bar .rmcc-badge {
   background-color: #fff;
   color: #666 !important;
+}
+.rmcc-light, .rmcc-section-primary:not(.rmcc-preserve-color), .rmcc-section-secondary:not(.rmcc-preserve-color), .rmcc-tile-primary:not(.rmcc-preserve-color), .rmcc-tile-secondary:not(.rmcc-preserve-color), .rmcc-card-primary.rmcc-card-body, .rmcc-card-primary > :not([class*=rmcc-card-media]), .rmcc-card-secondary.rmcc-card-body, .rmcc-card-secondary > :not([class*=rmcc-card-media]), .rmcc-overlay-primary, .rmcc-offcanvas-bar {
+  color: rgba(255, 255, 255, 0.7);
 }
 .rmcc-light a, .rmcc-section-primary:not(.rmcc-preserve-color) a, .rmcc-section-secondary:not(.rmcc-preserve-color) a, .rmcc-tile-primary:not(.rmcc-preserve-color) a, .rmcc-tile-secondary:not(.rmcc-preserve-color) a, .rmcc-card-primary.rmcc-card-body a, .rmcc-card-primary > :not([class*=rmcc-card-media]) a, .rmcc-card-secondary.rmcc-card-body a, .rmcc-card-secondary > :not([class*=rmcc-card-media]) a, .rmcc-overlay-primary a, .rmcc-offcanvas-bar a,
 .rmcc-light .rmcc-link,
@@ -11431,6 +11427,9 @@ iframe[data-rmcc-cover] {
   background-color: rgba(255, 255, 255, 0.9);
   border-color: transparent;
 }
+.rmcc-light, .rmcc-section-primary:not(.rmcc-preserve-color), .rmcc-section-secondary:not(.rmcc-preserve-color), .rmcc-tile-primary:not(.rmcc-preserve-color), .rmcc-tile-secondary:not(.rmcc-preserve-color), .rmcc-card-primary.rmcc-card-body, .rmcc-card-primary > :not([class*=rmcc-card-media]), .rmcc-card-secondary.rmcc-card-body, .rmcc-card-secondary > :not([class*=rmcc-card-media]), .rmcc-overlay-primary, .rmcc-offcanvas-bar {
+  /* Webkit */
+}
 .rmcc-light .rmcc-range::-webkit-slider-runnable-track, .rmcc-section-primary:not(.rmcc-preserve-color) .rmcc-range::-webkit-slider-runnable-track, .rmcc-section-secondary:not(.rmcc-preserve-color) .rmcc-range::-webkit-slider-runnable-track, .rmcc-tile-primary:not(.rmcc-preserve-color) .rmcc-range::-webkit-slider-runnable-track, .rmcc-tile-secondary:not(.rmcc-preserve-color) .rmcc-range::-webkit-slider-runnable-track, .rmcc-card-primary.rmcc-card-body .rmcc-range::-webkit-slider-runnable-track, .rmcc-card-primary > :not([class*=rmcc-card-media]) .rmcc-range::-webkit-slider-runnable-track, .rmcc-card-secondary.rmcc-card-body .rmcc-range::-webkit-slider-runnable-track, .rmcc-card-secondary > :not([class*=rmcc-card-media]) .rmcc-range::-webkit-slider-runnable-track, .rmcc-overlay-primary .rmcc-range::-webkit-slider-runnable-track, .rmcc-offcanvas-bar .rmcc-range::-webkit-slider-runnable-track {
   background: rgba(242.25, 242.25, 242.25, 0.1);
 }
@@ -11448,15 +11447,24 @@ iframe[data-rmcc-cover] {
 .rmcc-offcanvas-bar .rmcc-range:active::-webkit-slider-runnable-track {
   background: rgba(242.25, 242.25, 242.25, 0.15);
 }
+.rmcc-light, .rmcc-section-primary:not(.rmcc-preserve-color), .rmcc-section-secondary:not(.rmcc-preserve-color), .rmcc-tile-primary:not(.rmcc-preserve-color), .rmcc-tile-secondary:not(.rmcc-preserve-color), .rmcc-card-primary.rmcc-card-body, .rmcc-card-primary > :not([class*=rmcc-card-media]), .rmcc-card-secondary.rmcc-card-body, .rmcc-card-secondary > :not([class*=rmcc-card-media]), .rmcc-overlay-primary, .rmcc-offcanvas-bar {
+  /* Firefox */
+}
 .rmcc-light .rmcc-range::-moz-range-track, .rmcc-section-primary:not(.rmcc-preserve-color) .rmcc-range::-moz-range-track, .rmcc-section-secondary:not(.rmcc-preserve-color) .rmcc-range::-moz-range-track, .rmcc-tile-primary:not(.rmcc-preserve-color) .rmcc-range::-moz-range-track, .rmcc-tile-secondary:not(.rmcc-preserve-color) .rmcc-range::-moz-range-track, .rmcc-card-primary.rmcc-card-body .rmcc-range::-moz-range-track, .rmcc-card-primary > :not([class*=rmcc-card-media]) .rmcc-range::-moz-range-track, .rmcc-card-secondary.rmcc-card-body .rmcc-range::-moz-range-track, .rmcc-card-secondary > :not([class*=rmcc-card-media]) .rmcc-range::-moz-range-track, .rmcc-overlay-primary .rmcc-range::-moz-range-track, .rmcc-offcanvas-bar .rmcc-range::-moz-range-track {
   background: rgba(242.25, 242.25, 242.25, 0.1);
 }
 .rmcc-light .rmcc-range:focus::-moz-range-track, .rmcc-section-primary:not(.rmcc-preserve-color) .rmcc-range:focus::-moz-range-track, .rmcc-section-secondary:not(.rmcc-preserve-color) .rmcc-range:focus::-moz-range-track, .rmcc-tile-primary:not(.rmcc-preserve-color) .rmcc-range:focus::-moz-range-track, .rmcc-tile-secondary:not(.rmcc-preserve-color) .rmcc-range:focus::-moz-range-track, .rmcc-card-primary.rmcc-card-body .rmcc-range:focus::-moz-range-track, .rmcc-card-primary > :not([class*=rmcc-card-media]) .rmcc-range:focus::-moz-range-track, .rmcc-card-secondary.rmcc-card-body .rmcc-range:focus::-moz-range-track, .rmcc-card-secondary > :not([class*=rmcc-card-media]) .rmcc-range:focus::-moz-range-track, .rmcc-overlay-primary .rmcc-range:focus::-moz-range-track, .rmcc-offcanvas-bar .rmcc-range:focus::-moz-range-track {
   background: rgba(242.25, 242.25, 242.25, 0.15);
 }
+.rmcc-light, .rmcc-section-primary:not(.rmcc-preserve-color), .rmcc-section-secondary:not(.rmcc-preserve-color), .rmcc-tile-primary:not(.rmcc-preserve-color), .rmcc-tile-secondary:not(.rmcc-preserve-color), .rmcc-card-primary.rmcc-card-body, .rmcc-card-primary > :not([class*=rmcc-card-media]), .rmcc-card-secondary.rmcc-card-body, .rmcc-card-secondary > :not([class*=rmcc-card-media]), .rmcc-overlay-primary, .rmcc-offcanvas-bar {
+  /* Webkit */
+}
 .rmcc-light .rmcc-range::-webkit-slider-thumb, .rmcc-section-primary:not(.rmcc-preserve-color) .rmcc-range::-webkit-slider-thumb, .rmcc-section-secondary:not(.rmcc-preserve-color) .rmcc-range::-webkit-slider-thumb, .rmcc-tile-primary:not(.rmcc-preserve-color) .rmcc-range::-webkit-slider-thumb, .rmcc-tile-secondary:not(.rmcc-preserve-color) .rmcc-range::-webkit-slider-thumb, .rmcc-card-primary.rmcc-card-body .rmcc-range::-webkit-slider-thumb, .rmcc-card-primary > :not([class*=rmcc-card-media]) .rmcc-range::-webkit-slider-thumb, .rmcc-card-secondary.rmcc-card-body .rmcc-range::-webkit-slider-thumb, .rmcc-card-secondary > :not([class*=rmcc-card-media]) .rmcc-range::-webkit-slider-thumb, .rmcc-overlay-primary .rmcc-range::-webkit-slider-thumb, .rmcc-offcanvas-bar .rmcc-range::-webkit-slider-thumb {
   background: rgb(127.5, 127.5, 127.5);
   border-color: rgb(229.5, 229.5, 229.5);
+}
+.rmcc-light, .rmcc-section-primary:not(.rmcc-preserve-color), .rmcc-section-secondary:not(.rmcc-preserve-color), .rmcc-tile-primary:not(.rmcc-preserve-color), .rmcc-tile-secondary:not(.rmcc-preserve-color), .rmcc-card-primary.rmcc-card-body, .rmcc-card-primary > :not([class*=rmcc-card-media]), .rmcc-card-secondary.rmcc-card-body, .rmcc-card-secondary > :not([class*=rmcc-card-media]), .rmcc-overlay-primary, .rmcc-offcanvas-bar {
+  /* Firefox */
 }
 .rmcc-light .rmcc-range::-moz-range-thumb, .rmcc-section-primary:not(.rmcc-preserve-color) .rmcc-range::-moz-range-thumb, .rmcc-section-secondary:not(.rmcc-preserve-color) .rmcc-range::-moz-range-thumb, .rmcc-tile-primary:not(.rmcc-preserve-color) .rmcc-range::-moz-range-thumb, .rmcc-tile-secondary:not(.rmcc-preserve-color) .rmcc-range::-moz-range-thumb, .rmcc-card-primary.rmcc-card-body .rmcc-range::-moz-range-thumb, .rmcc-card-primary > :not([class*=rmcc-card-media]) .rmcc-range::-moz-range-thumb, .rmcc-card-secondary.rmcc-card-body .rmcc-range::-moz-range-thumb, .rmcc-card-secondary > :not([class*=rmcc-card-media]) .rmcc-range::-moz-range-thumb, .rmcc-overlay-primary .rmcc-range::-moz-range-thumb, .rmcc-offcanvas-bar .rmcc-range::-moz-range-thumb {
   background: rgb(127.5, 127.5, 127.5);

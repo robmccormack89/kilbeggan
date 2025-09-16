@@ -1,3 +1,7 @@
+// "webpack": "^5.99.9",
+// "webpack-cli": "^6.0.1",
+
+
 const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');

@@ -39,19 +39,7 @@
 
 //
 //
-// 4. If importing themed uikit, we now import the themed uikit components
-// ..you dont need this if not using uikit's theme
-// ..the uikit variables we set above will overwrite the ones we imoprt here, neat!
-// ..this file imports the components from the local uikit installed in node_modules
-//
-//
-
-// @import "theme/import-theme.scss"; // select components
-// @import "theme/import-theme-all.scss"; // all
-
-//
-//
-// 5. next, we can (optionally) do any custom mixin overwrites
+// 4. next, we can (optionally) do any custom mixin overwrites
 //
 //
 
@@ -59,8 +47,7 @@
 
 //
 //
-// 6. now we need to import the main uikit components
-// ..you need this regardless of whether uikit is theme'd or not
+// 5. now we need to import the main uikit components
 // ..this file imports the components from the local uikit installed in node_modules
 //
 //
@@ -70,7 +57,7 @@
 
 //
 //
-// 7. finally, we can now (optionally) import any extra custom scss styles
+// 6. finally, we can now (optionally) import any extra custom scss styles
 // ..the file we import here can also use the custom AND uikit variables set above, also neat!
 //
 //
