@@ -46,6 +46,15 @@ a:hover,
   text-decoration: underline;
 }
 
+/*
+ * Fix text underline offset if `vertical-align`is set to `middle`
+ */
+a:has(.rmcc-text-middle),
+.rmcc-link:has(.rmcc-text-middle),
+.rmcc-link-toggle:hover .rmcc-link:has(.rmcc-text-middle) {
+  text-underline-offset: 0.1875em;
+}
+
 /* Text-level semantics
  ========================================================================== */
 /*
@@ -159,8 +168,11 @@ video {
 
 /*
  * 1. Constrain the element to its parent width.
- * 2. Preserve the intrinsic aspect ratio and auto-scale the height of an image if the `height` attribute is present.
- * 3. Take border and padding into account.
+ * 2. Take border and padding into account.
+ * 3. Reset `height` attribute if present to scale the height based on the intrinsic aspect ratio.
+ * 4. Scale height based on the extrinsic aspect ratio. Works only in Chrome yet.
+ * 5. Size image to fill the element's content box.
+ * Note: Add `iframe` as soon as `attr` is supported in all browsers and remove `rmcc-responsive`.
  */
 canvas,
 img,
@@ -169,9 +181,13 @@ video {
   /* 1 */
   max-width: 100%;
   /* 2 */
-  height: auto;
-  /* 3 */
   box-sizing: border-box;
+  /* 3 */
+  height: auto;
+  /* 4 */
+  aspect-ratio: attr(width type(<number>)) / attr(height type(<number>));
+  /* 5 */
+  object-fit: cover;
 }
 
 /*
@@ -603,16 +619,6 @@ a.rmcc-link-reset,
     font-size: 15rem;
   }
 }
-/* Primary
-   Deprecated: Use `rmcc-heading-medium` instead
- ========================================================================== */
-/* Tablet landscape and bigger */
-/* Desktop and bigger */
-/* Hero
-   Deprecated: Use `rmcc-heading-xlarge` instead
- ========================================================================== */
-/* Tablet landscape and bigger */
-/* Desktop and bigger */
 /* Divider
  ========================================================================== */
 .rmcc-heading-divider {
@@ -1325,6 +1331,21 @@ button.rmcc-icon:not(:disabled) {
   color: #666;
 }
 
+/*
+ * Overlay
+ */
+.rmcc-icon-overlay,
+a .rmcc-icon-overlay {
+  color: rgba(51, 51, 51, 0.6);
+  transition: 0.1s ease-in-out;
+  transition-property: color;
+}
+
+.rmcc-icon-overlay:hover,
+a:hover .rmcc-icon-overlay {
+  color: #333;
+}
+
 /* ========================================================================
    Component: Form Range
  ========================================================================== */
@@ -1588,22 +1609,28 @@ button.rmcc-icon:not(:disabled) {
 
 /*
  * Single-line
- * 1. Allow any element to look like an `input` or `select` element
- * 2. Make sure line-height is not larger than height
- *    Also needed to center the text vertically
  */
 .rmcc-input,
 .rmcc-select:not([multiple]):not([size]) {
   height: 40px;
   vertical-align: middle;
-  /* 1 */
-  display: inline-block;
 }
 
-/* 2 */
-.rmcc-input:not(input),
-.rmcc-select:not(select) {
+/*
+ * 1. Allow any element to look like an `input` or `select` element
+ * 2. Make sure line-height is not larger than height. Also needed to center the text vertically
+ * 3. Prevent text from wrapping onto multiple lines, and truncate with an ellipsis
+ */
+.rmcc-input:where(:not(input)),
+.rmcc-select:where(:not(select)) {
+  /* 1 */
+  display: inline-block;
+  /* 2 */
   line-height: 38px;
+  /* 3 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /*
@@ -1650,58 +1677,6 @@ button.rmcc-icon:not(:disabled) {
 
 .rmcc-textarea::placeholder {
   color: #999;
-}
-
-/* Style modifier (`rmcc-input`, `rmcc-select` and `rmcc-textarea`)
- ========================================================================== */
-/*
- * Small
- */
-.rmcc-form-small {
-  font-size: 0.875rem;
-}
-
-/* Single-line */
-.rmcc-form-small:not(textarea):not([multiple]):not([size]) {
-  height: 30px;
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
-/* Multi-line */
-textarea.rmcc-form-small,
-[multiple].rmcc-form-small,
-[size].rmcc-form-small {
-  padding: 5px 8px;
-}
-
-.rmcc-form-small:not(select):not(input):not(textarea) {
-  line-height: 28px;
-}
-
-/*
- * Large
- */
-.rmcc-form-large {
-  font-size: 1.25rem;
-}
-
-/* Single-line */
-.rmcc-form-large:not(textarea):not([multiple]):not([size]) {
-  height: 55px;
-  padding-left: 12px;
-  padding-right: 12px;
-}
-
-/* Multi-line */
-textarea.rmcc-form-large,
-[multiple].rmcc-form-large,
-[size].rmcc-form-large {
-  padding: 7px 12px;
-}
-
-.rmcc-form-large:not(select):not(input):not(textarea) {
-  line-height: 53px;
 }
 
 /* Style modifier (`rmcc-input`, `rmcc-select` and `rmcc-textarea`)
@@ -1822,7 +1797,7 @@ select.rmcc-form-width-xsmall {
  * 3. Vertical alignment
  * 4. Remove default style
  * 5. Fix black background on iOS
- * 6. Center icons
+ * 6. Cover icons
  */
 .rmcc-radio,
 .rmcc-checkbox {
@@ -1841,8 +1816,7 @@ select.rmcc-form-width-xsmall {
   /* 5 */
   background-color: transparent;
   /* 6 */
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
+  background-size: cover;
   border: 1px solid rgb(203.5, 203.5, 203.5);
   transition: 0.2s ease-in-out;
   transition-property: background-color, border;
@@ -1885,7 +1859,7 @@ select.rmcc-form-width-xsmall {
 }
 
 .rmcc-checkbox:checked {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2214%22%20height%3D%2211%22%20viewBox%3D%220%200%2014%2011%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpolygon%20fill%3D%22%23fff%22%20points%3D%2212%201%205%207.5%202%205%201%205.5%205%2010%2013%201.5%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpolygon%20fill%3D%22%23fff%22%20points%3D%2213%203.5%206%2010%203%207.5%202%208%206%2012.5%2014%204%2013%203.5%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
 }
 
 .rmcc-checkbox:indeterminate {
@@ -1906,11 +1880,73 @@ select.rmcc-form-width-xsmall {
 }
 
 .rmcc-checkbox:disabled:checked {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2214%22%20height%3D%2211%22%20viewBox%3D%220%200%2014%2011%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpolygon%20fill%3D%22%23999%22%20points%3D%2212%201%205%207.5%202%205%201%205.5%205%2010%2013%201.5%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpolygon%20fill%3D%22%23999%22%20points%3D%2213%203.5%206%2010%203%207.5%202%208%206%2012.5%2014%204%2013%203.5%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
 }
 
 .rmcc-checkbox:disabled:indeterminate {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Crect%20fill%3D%22%23999%22%20x%3D%223%22%20y%3D%228%22%20width%3D%2210%22%20height%3D%221%22%20%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+/* Style modifier (`rmcc-input`, `rmcc-select`, `rmcc-textarea`, `rmcc-radio`, `rmcc-checkbox`)
+ ========================================================================== */
+/*
+ * Small
+ */
+.rmcc-form-small:is(.rmcc-input, .rmcc-search-input, .rmcc-select, .rmcc-textarea) {
+  font-size: 0.875rem;
+}
+
+/* Single-line */
+.rmcc-form-small:is(.rmcc-input, .rmcc-search-input, .rmcc-select:not([multiple]):not([size])) {
+  height: 30px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+/* Multi-line */
+.rmcc-form-small:is(.rmcc-select[multiple], .rmcc-select[size], .rmcc-textarea) {
+  padding: 5px 8px;
+}
+
+/* Any element */
+.rmcc-form-small:not(select):not(input):not(textarea):not([type=radio]):not([type=checkbox]) {
+  line-height: 28px;
+}
+
+/* Radio + Checkbox */
+.rmcc-form-small:is(.rmcc-radio, .rmcc-checkbox) {
+  height: 14px;
+  width: 14px;
+}
+
+/*
+ * Large
+ */
+.rmcc-form-large:is(.rmcc-input, .rmcc-search-input, .rmcc-select, .rmcc-textarea) {
+  font-size: 1.25rem;
+}
+
+/* Single-line */
+.rmcc-form-large:is(.rmcc-input, .rmcc-search-input, .rmcc-select:not([multiple]):not([size])) {
+  height: 55px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* Multi-line */
+.rmcc-form-large:is(.rmcc-select[multiple], .rmcc-select[size], .rmcc-textarea) {
+  padding: 7px 12px;
+}
+
+/* Any element */
+.rmcc-form-large:not(select):not(input):not(textarea):not([type=radio]):not([type=checkbox]) {
+  line-height: 53px;
+}
+
+/* Radio + Checkbox */
+.rmcc-form-large:is(.rmcc-radio, .rmcc-checkbox) {
+  height: 22px;
+  width: 22px;
 }
 
 /* Legend
@@ -2471,6 +2507,14 @@ select.rmcc-form-width-xsmall {
   padding-bottom: 20px;
 }
 
+.rmcc-section-xsmall-top {
+  padding-top: 20px;
+}
+
+.rmcc-section-xsmall-bottom {
+  padding-bottom: 20px;
+}
+
 /*
  * Small
  */
@@ -2479,6 +2523,34 @@ select.rmcc-form-width-xsmall {
   padding-bottom: 40px;
 }
 
+.rmcc-section-small-top {
+  padding-top: 40px;
+}
+
+.rmcc-section-small-bottom {
+  padding-bottom: 40px;
+}
+
+/*
+ * Medium
+ */
+.rmcc-section-medium-top {
+  padding-top: 40px;
+}
+
+.rmcc-section-medium-bottom {
+  padding-bottom: 40px;
+}
+
+/* Desktop and bigger */
+@media (min-width: 960px) {
+  .rmcc-section-medium-top {
+    padding-top: 70px;
+  }
+  .rmcc-section-medium-bottom {
+    padding-bottom: 70px;
+  }
+}
 /*
  * Large
  */
@@ -2487,10 +2559,24 @@ select.rmcc-form-width-xsmall {
   padding-bottom: 70px;
 }
 
+.rmcc-section-large-top {
+  padding-top: 70px;
+}
+
+.rmcc-section-large-bottom {
+  padding-bottom: 70px;
+}
+
 /* Tablet landscape and bigger */
 @media (min-width: 960px) {
   .rmcc-section-large {
     padding-top: 140px;
+    padding-bottom: 140px;
+  }
+  .rmcc-section-large-top {
+    padding-top: 140px;
+  }
+  .rmcc-section-large-bottom {
     padding-bottom: 140px;
   }
 }
@@ -2502,10 +2588,24 @@ select.rmcc-form-width-xsmall {
   padding-bottom: 140px;
 }
 
+.rmcc-section-xlarge-top {
+  padding-top: 140px;
+}
+
+.rmcc-section-xlarge-bottom {
+  padding-bottom: 140px;
+}
+
 /* Tablet landscape and bigger */
 @media (min-width: 960px) {
   .rmcc-section-xlarge {
     padding-top: 210px;
+    padding-bottom: 210px;
+  }
+  .rmcc-section-xlarge-top {
+    padding-top: 210px;
+  }
+  .rmcc-section-xlarge-bottom {
     padding-bottom: 210px;
   }
 }
@@ -2927,7 +3027,7 @@ select.rmcc-form-width-xsmall {
 
 /* Hover modifier
  ========================================================================== */
-.rmcc-card-hover:not(.rmcc-card-default):not(.rmcc-card-primary):not(.rmcc-card-secondary):hover {
+.rmcc-card-hover:not(.rmcc-card-default, .rmcc-card-primary, .rmcc-card-secondary, .rmcc-card-overlay):hover {
   background-color: #fff;
   box-shadow: 0 14px 25px rgba(0, 0, 0, 0.16);
 }
@@ -2997,6 +3097,25 @@ select.rmcc-form-width-xsmall {
 
 .rmcc-card-secondary.rmcc-card-hover:hover {
   background-color: #222;
+  box-shadow: 0 14px 25px rgba(0, 0, 0, 0.16);
+}
+
+/*
+ * Overlay
+ */
+.rmcc-card-overlay {
+  --rmcc-inverse: dark;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #666;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.rmcc-card-overlay .rmcc-card-title {
+  color: #333;
+}
+
+.rmcc-card-overlay.rmcc-card-hover:hover {
+  background-color: rgba(255, 255, 255, 0.9);
   box-shadow: 0 14px 25px rgba(0, 0, 0, 0.16);
 }
 
@@ -5008,53 +5127,30 @@ select.rmcc-form-width-xsmall {
 /* ========================================================================
    Component: Countdown
  ========================================================================== */
+.rmcc-countdown {
+  margin: 0;
+}
+
 /* Item
  ========================================================================== */
 /* Number
  ========================================================================== */
 /*
  * 1. Make numbers all of the same size to prevent jumping. Must be supported by the font.
- * 2. Style
  */
 .rmcc-countdown-number {
+  margin: 0;
   /* 1 */
   font-variant-numeric: tabular-nums;
-  /* 2 */
-  font-size: 2rem;
-  line-height: 0.8;
 }
 
-/* Phone landscape and bigger */
-@media (min-width: 640px) {
-  .rmcc-countdown-number {
-    font-size: 4rem;
-  }
-}
-/* Tablet landscape and bigger */
-@media (min-width: 960px) {
-  .rmcc-countdown-number {
-    font-size: 6rem;
-  }
-}
 /* Separator
  ========================================================================== */
 .rmcc-countdown-separator {
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 0.5em;
+  line-height: 2;
 }
 
-/* Phone landscape and bigger */
-@media (min-width: 640px) {
-  .rmcc-countdown-separator {
-    font-size: 2rem;
-  }
-}
-/* Tablet landscape and bigger */
-@media (min-width: 960px) {
-  .rmcc-countdown-separator {
-    font-size: 3rem;
-  }
-}
 /* Label
  ========================================================================== */
 /* ========================================================================
@@ -6047,7 +6143,7 @@ ul.rmcc-nav-sub {
 /* Groups
  ========================================================================== */
 /*
- * 1. Align navs and items vertically if they have a different height
+ * 1. Stretch height if a sibling's height is expanded by its content
  */
 .rmcc-navbar-left,
 .rmcc-navbar-right,
@@ -6055,7 +6151,7 @@ ul.rmcc-nav-sub {
   display: flex;
   gap: 15px;
   /* 1 */
-  align-items: center;
+  align-items: stretch;
 }
 
 /*
@@ -6064,7 +6160,8 @@ ul.rmcc-nav-sub {
  * 2. Fix text wrapping if content is larger than 50% of the container.
  * 3. Needed for dropdowns because a new position context is created
  *    `z-index` must be smaller than off-canvas
- * 4. Align sub groups for centered navbar
+ * 4. Stretch height if a sibling's height is expanded by its content
+ * 5. Align sub groups for centered navbar
  */
 .rmcc-navbar-right {
   margin-left: auto;
@@ -6087,11 +6184,16 @@ ul.rmcc-nav-sub {
   box-sizing: border-box;
   /* 3 */
   z-index: 990;
+  /* 4 */
+  height: 100%;
+  align-items: stretch;
 }
 
-/* 4 */
 .rmcc-navbar-center-left,
 .rmcc-navbar-center-right {
+  /* 4 */
+  height: 100%;
+  /* 5 */
   position: absolute;
   top: 0;
 }
@@ -6112,12 +6214,15 @@ ul.rmcc-nav-sub {
 /* Nav
  ========================================================================== */
 /*
- * 1. Reset list
+ * 1. Stretch height if a sibling's height is expanded by its content
+ * 2. Reset list
  */
 .rmcc-navbar-nav {
   display: flex;
   gap: 15px;
   /* 1 */
+  align-items: stretch;
+  /* 2 */
   margin: 0;
   padding: 0;
   list-style: none;
@@ -6162,8 +6267,13 @@ ul.rmcc-nav-sub {
 
 /*
  * Nav items
+ * 1. Stretch height if a sibling's height is expanded by its content
+ * 2. Reset list
  */
 .rmcc-navbar-nav > li > a {
+  /* 1 */
+  height: 100%;
+  /* 2 */
   padding: 0 0;
   color: #999;
   text-transform: uppercase;
@@ -6600,7 +6710,7 @@ ul.rmcc-nav-sub {
 /* Disabled
  * The same for all style modifiers
  ========================================================================== */
-.rmcc-subnav > .rmcc-disabled > a {
+.rmcc-subnav > .rmcc-disabled > :first-child {
   color: #999;
 }
 
@@ -8298,6 +8408,10 @@ ul.rmcc-nav-sub {
 }
 /* Intrinsic Widths
  ========================================================================== */
+.rmcc-width-fit-content {
+  width: fit-content;
+}
+
 .rmcc-width-max-content {
   width: max-content;
 }
@@ -9235,6 +9349,50 @@ iframe[data-rmcc-cover] {
 
 .rmcc-overflow-auto > :last-child {
   margin-bottom: 0;
+}
+
+/*
+ * Overflow fade
+ * 1. Overflow
+ * 2. Mask
+ */
+@property --rmcc-overflow-fade-start-opacity {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@property --rmcc-overflow-fade-end-opacity {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+.rmcc-overflow-fade-horizontal {
+  overflow-x: auto;
+  --rmcc-overflow-fade-direction: right;
+}
+
+.rmcc-overflow-fade-vertical {
+  overflow-y: auto;
+  --rmcc-overflow-fade-direction: bottom;
+}
+
+.rmcc-overflow-fade-horizontal,
+.rmcc-overflow-fade-vertical {
+  /* 1 */
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  /* 2 */
+  mask-image: linear-gradient(to var(--rmcc-overflow-fade-direction), rgba(0, 0, 0, var(--rmcc-overflow-fade-start-opacity)), #000 100px, #000 calc(100% - 100px), rgba(0, 0, 0, var(--rmcc-overflow-fade-end-opacity)));
+}
+
+.rmcc-overflow-fade-horizontal > *,
+.rmcc-overflow-fade-vertical > * {
+  min-width: max-content;
+}
+
+.rmcc-overflow-fade-horizontal::-webkit-scrollbar,
+.rmcc-overflow-fade-vertical::-webkit-scrollbar {
+  display: none;
 }
 
 /* Box Sizing
@@ -10759,6 +10917,10 @@ iframe[data-rmcc-cover] {
   z-index: 990;
 }
 
+.rmcc-position-z-index-highest {
+  z-index: 1060;
+}
+
 /* ========================================================================
    Component: Transition
  ========================================================================== */
@@ -11014,7 +11176,7 @@ iframe[data-rmcc-cover] {
   width: 0 !important;
   height: 0 !important;
   padding: 0 !important;
-  border: 0 !important;
+  border-width: 0 !important;
   margin: 0 !important;
   overflow: hidden !important;
 }
@@ -11633,7 +11795,7 @@ iframe[data-rmcc-cover] {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Ccircle%20fill%3D%22%23666%22%20cx%3D%228%22%20cy%3D%228%22%20r%3D%222%22%20%2F%3E%0A%3C%2Fsvg%3E");
 }
 .rmcc-light .rmcc-checkbox:checked, .rmcc-section-primary:not(.rmcc-preserve-color) .rmcc-checkbox:checked, .rmcc-section-secondary:not(.rmcc-preserve-color) .rmcc-checkbox:checked, .rmcc-tile-primary:not(.rmcc-preserve-color) .rmcc-checkbox:checked, .rmcc-tile-secondary:not(.rmcc-preserve-color) .rmcc-checkbox:checked, .rmcc-card-primary.rmcc-card-body .rmcc-checkbox:checked, .rmcc-card-primary > :not([class*=rmcc-card-media]) .rmcc-checkbox:checked, .rmcc-card-secondary.rmcc-card-body .rmcc-checkbox:checked, .rmcc-card-secondary > :not([class*=rmcc-card-media]) .rmcc-checkbox:checked, .rmcc-overlay-primary .rmcc-checkbox:checked, .rmcc-offcanvas-bar .rmcc-checkbox:checked {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2214%22%20height%3D%2211%22%20viewBox%3D%220%200%2014%2011%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpolygon%20fill%3D%22%23666%22%20points%3D%2212%201%205%207.5%202%205%201%205.5%205%2010%2013%201.5%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Cpolygon%20fill%3D%22%23666%22%20points%3D%2213%203.5%206%2010%203%207.5%202%208%206%2012.5%2014%204%2013%203.5%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
 }
 .rmcc-light .rmcc-checkbox:indeterminate, .rmcc-section-primary:not(.rmcc-preserve-color) .rmcc-checkbox:indeterminate, .rmcc-section-secondary:not(.rmcc-preserve-color) .rmcc-checkbox:indeterminate, .rmcc-tile-primary:not(.rmcc-preserve-color) .rmcc-checkbox:indeterminate, .rmcc-tile-secondary:not(.rmcc-preserve-color) .rmcc-checkbox:indeterminate, .rmcc-card-primary.rmcc-card-body .rmcc-checkbox:indeterminate, .rmcc-card-primary > :not([class*=rmcc-card-media]) .rmcc-checkbox:indeterminate, .rmcc-card-secondary.rmcc-card-body .rmcc-checkbox:indeterminate, .rmcc-card-secondary > :not([class*=rmcc-card-media]) .rmcc-checkbox:indeterminate, .rmcc-overlay-primary .rmcc-checkbox:indeterminate, .rmcc-offcanvas-bar .rmcc-checkbox:indeterminate {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%20%20%3Crect%20fill%3D%22%23666%22%20x%3D%223%22%20y%3D%228%22%20width%3D%2210%22%20height%3D%221%22%20%2F%3E%0A%3C%2Fsvg%3E");
@@ -11704,6 +11866,24 @@ iframe[data-rmcc-cover] {
 .rmcc-light .rmcc-icon-button:active, .rmcc-section-primary:not(.rmcc-preserve-color) .rmcc-icon-button:active, .rmcc-section-secondary:not(.rmcc-preserve-color) .rmcc-icon-button:active, .rmcc-tile-primary:not(.rmcc-preserve-color) .rmcc-icon-button:active, .rmcc-tile-secondary:not(.rmcc-preserve-color) .rmcc-icon-button:active, .rmcc-card-primary.rmcc-card-body .rmcc-icon-button:active, .rmcc-card-primary > :not([class*=rmcc-card-media]) .rmcc-icon-button:active, .rmcc-card-secondary.rmcc-card-body .rmcc-icon-button:active, .rmcc-card-secondary > :not([class*=rmcc-card-media]) .rmcc-icon-button:active, .rmcc-overlay-primary .rmcc-icon-button:active, .rmcc-offcanvas-bar .rmcc-icon-button:active {
   background-color: rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.7);
+}
+.rmcc-light .rmcc-icon-overlay, .rmcc-section-primary:not(.rmcc-preserve-color) .rmcc-icon-overlay, .rmcc-section-secondary:not(.rmcc-preserve-color) .rmcc-icon-overlay, .rmcc-tile-primary:not(.rmcc-preserve-color) .rmcc-icon-overlay, .rmcc-tile-secondary:not(.rmcc-preserve-color) .rmcc-icon-overlay, .rmcc-card-primary.rmcc-card-body .rmcc-icon-overlay, .rmcc-card-primary > :not([class*=rmcc-card-media]) .rmcc-icon-overlay, .rmcc-card-secondary.rmcc-card-body .rmcc-icon-overlay, .rmcc-card-secondary > :not([class*=rmcc-card-media]) .rmcc-icon-overlay, .rmcc-overlay-primary .rmcc-icon-overlay, .rmcc-offcanvas-bar .rmcc-icon-overlay,
+.rmcc-light a .rmcc-icon-overlay, .rmcc-light:is(a) .rmcc-icon-overlay {
+  color: rgba(255, 255, 255, 0.6);
+}
+.rmcc-light .rmcc-icon-overlay:hover, .rmcc-section-primary:not(.rmcc-preserve-color) .rmcc-icon-overlay:hover, .rmcc-section-secondary:not(.rmcc-preserve-color) .rmcc-icon-overlay:hover, .rmcc-tile-primary:not(.rmcc-preserve-color) .rmcc-icon-overlay:hover, .rmcc-tile-secondary:not(.rmcc-preserve-color) .rmcc-icon-overlay:hover, .rmcc-card-primary.rmcc-card-body .rmcc-icon-overlay:hover, .rmcc-card-primary > :not([class*=rmcc-card-media]) .rmcc-icon-overlay:hover, .rmcc-card-secondary.rmcc-card-body .rmcc-icon-overlay:hover, .rmcc-card-secondary > :not([class*=rmcc-card-media]) .rmcc-icon-overlay:hover, .rmcc-overlay-primary .rmcc-icon-overlay:hover, .rmcc-offcanvas-bar .rmcc-icon-overlay:hover,
+.rmcc-light a:hover .rmcc-icon-overlay,
+.rmcc-section-primary:not(.rmcc-preserve-color) a:hover .rmcc-icon-overlay,
+.rmcc-section-secondary:not(.rmcc-preserve-color) a:hover .rmcc-icon-overlay,
+.rmcc-tile-primary:not(.rmcc-preserve-color) a:hover .rmcc-icon-overlay,
+.rmcc-tile-secondary:not(.rmcc-preserve-color) a:hover .rmcc-icon-overlay,
+.rmcc-card-primary.rmcc-card-body a:hover .rmcc-icon-overlay,
+.rmcc-card-primary > :not([class*=rmcc-card-media]) a:hover .rmcc-icon-overlay,
+.rmcc-card-secondary.rmcc-card-body a:hover .rmcc-icon-overlay,
+.rmcc-card-secondary > :not([class*=rmcc-card-media]) a:hover .rmcc-icon-overlay,
+.rmcc-overlay-primary a:hover .rmcc-icon-overlay,
+.rmcc-offcanvas-bar a:hover .rmcc-icon-overlay, .rmcc-light:is(a):hover .rmcc-icon-overlay, .rmcc-section-primary:is(a):hover:not(.rmcc-preserve-color) .rmcc-icon-overlay, .rmcc-section-secondary:is(a):hover:not(.rmcc-preserve-color) .rmcc-icon-overlay, .rmcc-tile-primary:is(a):hover:not(.rmcc-preserve-color) .rmcc-icon-overlay, .rmcc-tile-secondary:is(a):hover:not(.rmcc-preserve-color) .rmcc-icon-overlay, .rmcc-card-primary.rmcc-card-body:is(a):hover .rmcc-icon-overlay, .rmcc-card-primary > :is(a):hover:not([class*=rmcc-card-media]) .rmcc-icon-overlay, .rmcc-card-secondary.rmcc-card-body:is(a):hover .rmcc-icon-overlay, .rmcc-card-secondary > :is(a):hover:not([class*=rmcc-card-media]) .rmcc-icon-overlay, .rmcc-overlay-primary:is(a):hover .rmcc-icon-overlay, .rmcc-offcanvas-bar:is(a):hover .rmcc-icon-overlay {
+  color: #fff;
 }
 .rmcc-light .rmcc-iconnav > * > a, .rmcc-section-primary:not(.rmcc-preserve-color) .rmcc-iconnav > * > a, .rmcc-section-secondary:not(.rmcc-preserve-color) .rmcc-iconnav > * > a, .rmcc-tile-primary:not(.rmcc-preserve-color) .rmcc-iconnav > * > a, .rmcc-tile-secondary:not(.rmcc-preserve-color) .rmcc-iconnav > * > a, .rmcc-card-primary.rmcc-card-body .rmcc-iconnav > * > a, .rmcc-card-primary > :not([class*=rmcc-card-media]) .rmcc-iconnav > * > a, .rmcc-card-secondary.rmcc-card-body .rmcc-iconnav > * > a, .rmcc-card-secondary > :not([class*=rmcc-card-media]) .rmcc-iconnav > * > a, .rmcc-overlay-primary .rmcc-iconnav > * > a, .rmcc-offcanvas-bar .rmcc-iconnav > * > a {
   color: rgba(255, 255, 255, 0.5);
@@ -12150,7 +12330,7 @@ iframe[data-rmcc-cover] {
   --rmcc-inverse: light;
 }
 
-.rmcc-dark, .rmcc-section-default:not(.rmcc-preserve-color), .rmcc-section-muted:not(.rmcc-preserve-color), .rmcc-tile-default:not(.rmcc-preserve-color), .rmcc-tile-muted:not(.rmcc-preserve-color), .rmcc-card-default.rmcc-card-body, .rmcc-card-default > :not([class*=rmcc-card-media]), .rmcc-overlay-default, .rmcc-dropbar, .rmcc-navbar-container:not(.rmcc-navbar-transparent), .rmcc-navbar-dropdown, .rmcc-dropdown {
+.rmcc-dark, .rmcc-section-default:not(.rmcc-preserve-color), .rmcc-section-muted:not(.rmcc-preserve-color), .rmcc-tile-default:not(.rmcc-preserve-color), .rmcc-tile-muted:not(.rmcc-preserve-color), .rmcc-card-default.rmcc-card-body, .rmcc-card-default > :not([class*=rmcc-card-media]), .rmcc-card-overlay.rmcc-card-body, .rmcc-card-overlay > :not([class*=rmcc-card-media]), .rmcc-overlay-default, .rmcc-dropbar, .rmcc-navbar-container:not(.rmcc-navbar-transparent), .rmcc-navbar-dropdown:not(.rmcc-preserve-color), .rmcc-dropdown {
   --rmcc-inverse: dark;
 }
 

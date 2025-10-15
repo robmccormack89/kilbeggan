@@ -1,17 +1,12 @@
-// ESM modules | latest build packages
-
-'use strict';
-
 //
 //
 // gulp style
 //
-// "gulp": "^5.0.0",
-// "sass": "^1.85.1",
+// "sass": "^1.93.2",
 // "gulp-sass": "^6.0.1",
 // "gulp-postcss": "^10.0.0",
 // "autoprefixer": "^10.4.21",
-// "cssnano": "^7.0.6",
+// "cssnano": "^7.1.1",
 //
 //
 

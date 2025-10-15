@@ -1,30 +1,43 @@
 {
-  "name": "kilbeggan",
+  "name": "project",
   "version": "1.0.0",
-  "author": "Robert McCormack <robertmccormack147@gmail.com> (https://github.com/robmccormack89)",
-  "description": "Kilbeggan",
-  "license": "MIT",
-  "main": "src/js/uikit.js",
-  "style": "public/css/style.css",
-  "keywords": [],
+  "description": "",
+  "main": "index.js",
+  "style": "dist/css/uikit.scoped.css",
+  "sideEffects": [
+      "*.css",
+      "./src/js/*.js",
+      "./dist/**/*.js"
+  ],
   "scripts": {
+    "build-scss": "node build/scss",
+    "compile": "pnpm compile-less && pnpm compile-js",
+    "compile-js": "node build/build",
+    "compile-less": "pnpm icons && node build/less",
+    "compile-rtl": "pnpm compile-less rtl",
+    "icons": "node build/icons",
+    "prefix": "node build/prefix",
+    "scope": "node build/scope",
+    "scopium": "node build/scope -s \"rmcc-wrap\"",
+    "release": "node build/release",
+    "watch": "chokidar \"**/*.less\" --initial -i \"node_modules\" -c \"node build/less\"",
     "gulp": "./node_modules/.bin/gulp",
-    "scopeium": "node build/scope",
-    "prefixium": "node build/prefix",
-    "scope": "pnpm scopeium -s \"rmcc-wrap\"",
-    "prefix": "pnpm prefixium",
-    "styles": "gulp style",
-    "_scripts": "npx webpack --config-name uikit",
-    "_build": "gulp style && npx webpack --config-name uikit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "uikit": "^3.23.13"
+    "uikit": "3.24.2"
   },
   "devDependencies": {
-
     "gulp": "^5.0.1",
-    "sass": "^1.92.1",
+    "del": "^8.0.1",
+    "gulp-wp-pot": "^2.5.0",
+    "gulp-rename": "^2.1.0",
+    "gulp-replace": "^1.1.4",
+
+    "sass": "^1.93.2",
     "gulp-sass": "^6.0.1",
     "gulp-postcss": "^10.0.0",
     "autoprefixer": "^10.4.21",
@@ -59,6 +72,5 @@
     "semver": "^7.7.1",
     "strip-css-comments": "^5.0.0",
     "svgo": "^4.0.0"
-
   }
 }
